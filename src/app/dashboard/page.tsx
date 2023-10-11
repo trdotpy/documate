@@ -137,6 +137,12 @@ export default function Page({}: Props) {
 }
 
 function FileList({ files, onFileSelect, selectedFileId }: Props) {
+    const [searchQuery, setSearchQuery] = React.useState("");
+
+    const filteredFiles = files.filter((file) =>
+        file.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     const formatDate = (createdAt: Date) => {
         const now = moment();
         const fileDate = moment(createdAt);
@@ -160,14 +166,16 @@ function FileList({ files, onFileSelect, selectedFileId }: Props) {
                 <Input
                     type="text"
                     className="mb-4 w-80 px-3 py-2"
-                    placeholder="Search..."
+                    placeholder="Search files"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                 />
             </div>
             <div className="px-6">
                 <h1 className="text-sm">Your Files</h1>
             </div>
             <div className="px-2">
-                {files
+                {filteredFiles
                     .sort(
                         (a, b) =>
                             new Date(b.createdAt).getTime() -
