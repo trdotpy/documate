@@ -1,24 +1,29 @@
 "use client";
 
-import { UserButton, auth } from "@clerk/nextjs";
+import { UserButton, auth, useUser } from "@clerk/nextjs";
 import React from "react";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 import LayoutWrapper from "./LayoutWrapper";
 import { Blocks } from "lucide-react";
 
-type Props = { userId?: string | null };
+interface Props {
+    userId: string;
+}
 
 export default function Navbar({ userId }: Props) {
     return (
         <nav className="h-18 sticky inset-x-0 top-0 z-30 w-full border-b border-gray-200 backdrop-blur-lg transition-all">
             <LayoutWrapper className="flex items-center justify-between ">
-                <div className="flex items-center justify-between gap-x-3">
-                    <Blocks className="mb-1 h-6 w-6" />
-                    {/* <h1 className="text-xl font-medium text-gray-800">
+                <Link
+                    href="/"
+                    className="flex items-center justify-between gap-x-3"
+                >
+                    <Blocks className="h-6 w-6" />
+                    <h1 className="text-xl font-medium text-gray-100">
                         DocuMate
-                    </h1> */}
-                </div>
+                    </h1>
+                </Link>
 
                 <div className="flex items-center justify-between space-x-2 py-4">
                     <Link
@@ -40,7 +45,7 @@ export default function Navbar({ userId }: Props) {
                         Documentation
                     </Link>
                     <>
-                        {!userId ? (
+                        {userId ? (
                             <UserButton afterSignOutUrl="/" />
                         ) : (
                             <Link

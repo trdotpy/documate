@@ -7,6 +7,7 @@ import { Settings, Settings2, Trash2 } from "lucide-react";
 import { Card } from "../ui/card";
 import MessageInput from "./MessageInput";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface Props {
     fileName: string;
@@ -19,12 +20,25 @@ export default function MessagePanel({
     fileId,
     isPDFSelected,
 }: Props) {
+    const { data, isLoading } = useQuery({
+        queryKey: ["Message", fileId],
+        queryFn: async () => {
+            const response = await axios.post("/api/messages", {
+                fileId,
+            });
+            return response.data;
+        },
+    });
+
     const { input, handleInputChange, handleSubmit, messages } = useChat({
         api: "/api/message",
         body: {
             fileId,
         },
+        initialMessages: data || [],
     });
+
+    console.log("data:", data);
 
     return (
         <div className="relative w-full p-4">
@@ -33,6 +47,7 @@ export default function MessagePanel({
                 <MessageList
                     messages={messages}
                     isPDFSelected={isPDFSelected}
+                    isLoading={isLoading}
                 />
 
                 {/* Message Input */}

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
@@ -31,6 +28,13 @@ enum UploadStatus {
     SUCCESS
 }
 
+enum Role {
+    USER
+    SYSTEM
+    ASSISTANT
+    FUNCTION
+}
+
 model File {
     id   String @id @default(cuid())
     name String
@@ -48,10 +52,10 @@ model File {
 }
 
 model Message {
-    id   String @id @default(cuid())
-    text String @db.Text()
+    id      String @id @default(cuid())
+    content String @db.Text()
 
-    isUserMessage Boolean
+    role Role
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

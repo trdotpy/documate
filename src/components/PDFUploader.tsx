@@ -32,7 +32,6 @@ export default function PDFUploader({}: Props) {
 
             try {
                 const data = await uploadToS3(file);
-                // console.log("Data uploaded to S3:", data);
 
                 if (!data?.fileId || !data.fileName) {
                     toast.error("Something went wrong.");

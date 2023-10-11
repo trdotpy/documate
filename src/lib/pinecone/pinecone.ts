@@ -78,7 +78,6 @@ export async function uploadToPinecone(fileId: string) {
     const pages = (await loader.load()) as PDFPage[];
 
     const pageCount = pages.length;
-    console.log("pageCount:", pageCount);
 
     const documents = await Promise.all(pages.map(prepareFile));
     const vectors = await Promise.all(documents.flat().map(embedDocument));

@@ -4,18 +4,17 @@ import React from "react";
 import PDFUploader from "./PDFUploader";
 import Skeleton from "react-loading-skeleton";
 import {
-  Download,
-  File,
-  Ghost,
-  Loader2,
-  MessageSquare,
-  Trash,
+    Download,
+    File,
+    Ghost,
+    Loader2,
+    MessageSquare,
+    Trash,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 import PDFViewer from "./PDFViewer";
-import { db } from "@/prisma";
 import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
 import SidebarMenu from "./SidebarMenu";
@@ -26,44 +25,46 @@ import FileList from "./FileList";
 interface Props {}
 
 const EmptyDashboard = () => (
-  <div className="relative flex-1 border-l border-l-gray-200 bg-[#f6f6f6]">
-    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
-      <div className="mt-16 flex flex-col items-center gap-2">
-        <Ghost className="h-8 w-8 text-zinc-800" />
-        <h3 className="text-xl font-semibold">Pretty empty around here</h3>
-        <p>Let's upload your first PDF.</p>
-        <PDFUploader />
-      </div>
+    <div className="relative flex-1 border-l border-l-gray-200 bg-[#f6f6f6]">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
+            <div className="mt-16 flex flex-col items-center gap-2">
+                <Ghost className="h-8 w-8 text-zinc-800" />
+                <h3 className="text-xl font-semibold">
+                    Pretty empty around here
+                </h3>
+                <p>Let's upload your first PDF.</p>
+                <PDFUploader />
+            </div>
+        </div>
     </div>
-  </div>
 );
 
 export default function UserDashboard({}: Props) {
-  const router = useRouter();
-  const { user } = useUser();
-  const [files, setFiles] = React.useState([]);
-  const [selectedFileUrl, setSelectedFileUrl] = React.useState("");
-  const [selectedFileName, setSelectedFileName] = React.useState("");
-  const [isPDFSelected, setIsPDFSelected] = React.useState(false);
+    const router = useRouter();
+    const { user } = useUser();
+    const [files, setFiles] = React.useState([]);
+    const [selectedFileUrl, setSelectedFileUrl] = React.useState("");
+    const [selectedFileName, setSelectedFileName] = React.useState("");
+    const [isPDFSelected, setIsPDFSelected] = React.useState(false);
 
-  React.useEffect(() => {
-    const fetchFiles = async () => {
-      try {
-        const response = await axios.get("/api/files");
-        setFiles(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    React.useEffect(() => {
+        const fetchFiles = async () => {
+            try {
+                const response = await axios.get("/api/files");
+                setFiles(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
-    fetchFiles();
-  }, []);
+        fetchFiles();
+    }, []);
 
-  console.log(files);
+    console.log(files);
 
-  return (
-    <>
-      {/* <div className="flex min-h-screen">
+    return (
+        <>
+            {/* <div className="flex min-h-screen">
                 <div className="max-w-sm">
                     <SidebarMenu />
                 </div>
@@ -112,6 +113,6 @@ export default function UserDashboard({}: Props) {
                     </div>
                 )}
             </div> */}
-    </>
-  );
+        </>
+    );
 }

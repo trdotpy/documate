@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Message } from "ai/react";
+import { Loader2 } from "lucide-react";
 import React from "react";
 
 interface Props {
@@ -8,7 +9,19 @@ interface Props {
     isPDFSelected: boolean;
 }
 
-export default function MessageList({ messages, isPDFSelected }: Props) {
+export default function MessageList({
+    messages,
+    isPDFSelected,
+    isLoading,
+}: Props) {
+    console.log("messages:", messages);
+    if (isPDFSelected && isLoading) {
+        return (
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                <Loader2 className="h-6 w-6 animate-spin" />
+            </div>
+        );
+    }
     if (!isPDFSelected && messages.length < 1)
         return (
             <div className="relative flex-1">
@@ -63,8 +76,13 @@ export default function MessageList({ messages, isPDFSelected }: Props) {
                                             : "block text-left font-bold text-gray-700"
                                     }
                                 >
-                                    {message.role === "user" ? "" : "DocuMate"}{" "}
+                                    {message.role === "user"
+                                        ? ""
+                                        : message.role === "assistant"
+                                        ? "DocuMate"
+                                        : ""}{" "}
                                 </span>
+
                                 {message.content}
                             </p>
                         </div>

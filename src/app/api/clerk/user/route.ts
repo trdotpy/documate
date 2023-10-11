@@ -1,6 +1,6 @@
 // src/app/api/clerk/signInAttempt.ts
+import { db } from "@/db";
 import { NextApiRequest, NextApiResponse } from "next";
-import { db } from "@/prisma";
 
 export async function POST(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "POST") {

@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Figtree } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider, auth } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "sonner";
 import Providers from "@/components/Providers";
@@ -28,6 +28,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Props) {
+    const { userId } = auth();
+
     return (
         <ClerkProvider>
             <Providers>
@@ -38,7 +40,7 @@ export default function RootLayout({ children }: Props) {
                             figtree.className
                         )}
                     >
-                        <Navbar />
+                        <Navbar userId={userId} />
                         {children}
                         <Toaster />
                     </body>
