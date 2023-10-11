@@ -16,7 +16,6 @@ export default function PDFUploader({}: Props) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
     const router = useRouter();
-
     const { user } = useUser();
     const userId = user?.id ?? "";
 

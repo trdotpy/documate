@@ -98,7 +98,7 @@ export default function Page({}: Props) {
 
             <Card className="mt-4 flex-col md:flex">
                 <div className="flex justify-between">
-                    {/* Sidebar & Files */}
+                    {/* Files */}
                     {!isPDFSelected && (
                         <div>
                             <FileList

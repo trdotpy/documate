@@ -47,8 +47,12 @@ export default function MessagePanel({
                             placeholder="Ask anything"
                             value={input}
                             onChange={handleInputChange}
+                            disabled={!isPDFSelected}
                         />
-                        <Button className="inline-flex h-10 items-center justify-center rounded-md bg-black px-4 py-2 text-sm font-medium text-gray-200 hover:bg-[#111827E6] disabled:pointer-events-none disabled:opacity-50">
+                        <Button
+                            className="inline-flex h-10 items-center justify-center rounded-md bg-black px-4 py-2 text-sm font-medium text-gray-200 hover:bg-[#111827E6] disabled:pointer-events-none disabled:opacity-50"
+                            disabled={!isPDFSelected}
+                        >
                             Send
                         </Button>
                     </form>
