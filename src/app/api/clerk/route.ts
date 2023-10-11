@@ -31,6 +31,7 @@ async function handler(request: Request) {
     if (eventType === "user.created" || eventType === "user.updated") {
         const { id, ...attributes } = evt.data;
         const emailAddresses = attributes.email_addresses;
+        // @ts-ignore
         const emailAddress = emailAddresses[0].email_address;
 
         // Save user to DB after login
@@ -46,6 +47,7 @@ async function handler(request: Request) {
             },
         });
     }
+    return;
 }
 
 type EventType = "user.created" | "user.updated" | "*";
