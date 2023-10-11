@@ -1,6 +1,6 @@
 "use client";
 
-import { UserButton, auth, useUser } from "@clerk/nextjs";
+import { ClerkLoading, UserButton } from "@clerk/nextjs";
 import React from "react";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
@@ -8,7 +8,7 @@ import LayoutWrapper from "./LayoutWrapper";
 import { Blocks } from "lucide-react";
 
 interface Props {
-    userId: string;
+    userId: string | null;
 }
 
 export default function Navbar({ userId }: Props) {
@@ -44,7 +44,8 @@ export default function Navbar({ userId }: Props) {
                     >
                         Documentation
                     </Link>
-                    <>
+
+                    <div>
                         {userId ? (
                             <UserButton afterSignOutUrl="/" />
                         ) : (
@@ -57,7 +58,7 @@ export default function Navbar({ userId }: Props) {
                                 Get Started
                             </Link>
                         )}
-                    </>
+                    </div>
                 </div>
             </LayoutWrapper>
         </nav>

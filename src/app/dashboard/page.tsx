@@ -11,20 +11,18 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { ChevronLeft, FileText, MessageCircle } from "lucide-react";
+import { ChevronLeft, FileText, Layout, MessageCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
-import SearchBar from "@/components/SearchBar";
 import MessagePanel from "@/components/messaging/MessagePanel";
-import SidebarMenu from "@/components/SidebarMenu";
 import PDFUploader from "@/components/PDFUploader";
 import { File } from "@prisma/client";
 import PDFViewer from "@/components/PDFViewer";
 import { Input } from "@/components/ui/input";
-import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
+import { formatDate } from "@/lib/utils";
 
 interface ListProps {
     files: File[];
@@ -71,7 +69,7 @@ export default function Page({}: PageProps) {
     };
 
     return (
-        <div className="px-20">
+        <LayoutWrapper>
             {isPDFSelected ? (
                 <Button
                     className={buttonVariants({
@@ -85,9 +83,13 @@ export default function Page({}: PageProps) {
                 </Button>
             ) : (
                 <div className="mt-4 flex h-16 items-center px-4">
-                    <h2 className="mb-2 text-3xl font-bold tracking-tight">
-                        {user?.firstName}'s Workspace
-                    </h2>
+                    {user?.firstName ? (
+                        <h2 className="mb-2 text-3xl font-bold tracking-tight">
+                            {user.firstName}'s Workspace
+                        </h2>
+                    ) : (
+                        <Skeleton height={50} width={350} />
+                    )}
                     <div className="ml-auto flex items-center space-x-4">
                         <PDFUploader />
                     </div>
@@ -131,7 +133,7 @@ export default function Page({}: PageProps) {
                     </div>
                 </div>
             </Card>
-        </div>
+        </LayoutWrapper>
     );
 }
 
@@ -141,29 +143,6 @@ function FileList({
     selectedFileId,
     isLoading,
 }: ListProps) {
-    const [searchQuery, setSearchQuery] = React.useState("");
-
-    const filteredFiles = files.filter((file) =>
-        file.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    const formatDate = (createdAt: Date) => {
-        const now = moment();
-        const fileDate = moment(createdAt);
-
-        if (now.isSame(fileDate, "day")) {
-            return fileDate.format("HH:mm");
-        }
-        if (now.diff(fileDate, "seconds") <= 60) {
-            return "Now";
-        }
-        if (now.diff(fileDate, "days") <= 7) {
-            return fileDate.format("ddd");
-        }
-
-        return fileDate.format("D MMM");
-    };
-
     if (isLoading)
         return (
             <div className="grid gap-y-2 overflow-hidden">
@@ -183,6 +162,25 @@ function FileList({
             </div>
         );
 
+    if (files.length === 0)
+        return (
+            <div className="flex h-full items-center justify-center">
+                <div className="m-auto grid px-4">
+                    <div className="text-center">
+                        <p className="text-xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+                            Let&apos;s get started
+                        </p>
+                        <p className="mt-4 text-gray-500">
+                            Click below to upload a PDF from your computer.
+                        </p>
+                        <div className="mt-6">
+                            <PDFUploader />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
     return (
         <div className="grid gap-y-2 overflow-hidden">
             <div className="p-4">
@@ -190,15 +188,13 @@ function FileList({
                     type="text"
                     className="mb-4 w-80 px-3 py-2"
                     placeholder="Search files"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
                 />
             </div>
             <div className="px-6">
                 <h1 className="text-sm">Your Files</h1>
             </div>
             <div className="px-2">
-                {filteredFiles
+                {files
                     .sort(
                         (a, b) =>
                             new Date(b.createdAt).getTime() -

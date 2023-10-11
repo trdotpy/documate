@@ -1,4 +1,3 @@
-import { db } from "@/prisma";
 import AWS from "aws-sdk";
 
 const configureAWS = () => {
