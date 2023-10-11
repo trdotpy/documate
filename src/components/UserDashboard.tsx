@@ -60,8 +60,6 @@ export default function UserDashboard({}: Props) {
         fetchFiles();
     }, []);
 
-    console.log(files);
-
     return (
         <>
             {/* <div className="flex min-h-screen">

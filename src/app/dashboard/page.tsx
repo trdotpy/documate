@@ -23,42 +23,40 @@ import { File } from "@prisma/client";
 import PDFViewer from "@/components/PDFViewer";
 import { Input } from "@/components/ui/input";
 import moment from "moment";
-import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import Skeleton from "react-loading-skeleton";
 
-interface Props {
+interface ListProps {
     files: File[];
     onFileSelect: (file: any) => void;
     selectedFileId: string;
+    isLoading: boolean;
 }
 
-export default function Page({}: Props) {
+interface PageProps {}
+
+export default function Page({}: PageProps) {
     const router = useRouter();
     const { user } = useUser();
-    const [files, setFiles] = React.useState([]);
     const [selectedFileUrl, setSelectedFileUrl] = React.useState("");
     const [selectedFileName, setSelectedFileName] = React.useState("");
     const [selectedFileId, setSelectedFileId] = React.useState("");
     const [isPDFSelected, setIsPDFSelected] = React.useState(false);
 
-    React.useEffect(() => {
-        const fetchFiles = async () => {
-            try {
-                const response = await axios.get("/api/files");
-                setFiles(response.data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchFiles();
-    }, []);
+    const { data, isLoading } = useQuery({
+        queryKey: ["files"],
+        queryFn: async () => {
+            const response = await axios.get("/api/files");
+            return response.data;
+        },
+    });
 
     // Update URL without redirecting
     React.useEffect(() => {
         const newUrl = `/dashboard/${selectedFileId}`;
         history.pushState(null, "", newUrl);
         setSelectedFileId(selectedFileId);
-    }, []);
+    }, [selectedFileId]);
 
     // Function to handle unselecting the file
     const handleReturnToDashboard = () => {
@@ -99,10 +97,10 @@ export default function Page({}: Props) {
             <Card className="mt-4 flex-col md:flex">
                 <div className="flex justify-between">
                     {/* Files */}
-                    {!isPDFSelected && (
-                        <div>
+                    <div>
+                        {!isPDFSelected && (
                             <FileList
-                                files={files}
+                                files={data}
                                 onFileSelect={(file) => {
                                     setSelectedFileUrl(file.url);
                                     setIsPDFSelected(true);
@@ -110,9 +108,10 @@ export default function Page({}: Props) {
                                     setSelectedFileId(file.id);
                                 }}
                                 selectedFileId={selectedFileId}
+                                isLoading={isLoading}
                             />
-                        </div>
-                    )}
+                        )}
+                    </div>
 
                     {/* Message Panel */}
                     <div className="flex-1 border-l border-stone-100 p-4">
@@ -136,7 +135,12 @@ export default function Page({}: Props) {
     );
 }
 
-function FileList({ files, onFileSelect, selectedFileId }: Props) {
+function FileList({
+    files,
+    onFileSelect,
+    selectedFileId,
+    isLoading,
+}: ListProps) {
     const [searchQuery, setSearchQuery] = React.useState("");
 
     const filteredFiles = files.filter((file) =>
@@ -159,6 +163,25 @@ function FileList({ files, onFileSelect, selectedFileId }: Props) {
 
         return fileDate.format("D MMM");
     };
+
+    if (isLoading)
+        return (
+            <div className="grid gap-y-2 overflow-hidden">
+                <div className="p-4">
+                    <Skeleton
+                        height={50}
+                        width={350}
+                        className="mb-4 w-80 px-3 py-2"
+                    />
+                </div>
+                <div className="p-4">
+                    <Skeleton height={50} width={350} />
+                </div>
+                <div className="p-4">
+                    <Skeleton count={6} height={50} width={350} />
+                </div>
+            </div>
+        );
 
     return (
         <div className="grid gap-y-2 overflow-hidden">

@@ -14,7 +14,6 @@ export default function MessageList({
     isPDFSelected,
     isLoading,
 }: Props) {
-    console.log("messages:", messages);
     if (isPDFSelected && isLoading) {
         return (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">

@@ -38,8 +38,6 @@ export default function MessagePanel({
         initialMessages: data || [],
     });
 
-    console.log("data:", data);
-
     return (
         <div className="relative w-full p-4">
             <div className="flex min-h-[600px] flex-col p-6">

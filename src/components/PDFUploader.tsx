@@ -17,7 +17,7 @@ export default function PDFUploader({}: Props) {
     const [isLoading, setIsLoading] = React.useState(false);
     const router = useRouter();
     const { user } = useUser();
-    const userId = user?.id ?? "";
+    const userId = user?.id;
 
     const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
         accept: { "application/pdf": [".pdf"] },
