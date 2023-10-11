@@ -9,6 +9,7 @@ import Providers from "@/components/Providers";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import "simplebar-react/dist/simplebar.min.css";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,7 +34,7 @@ export default function RootLayout({ children }: Props) {
                 <html lang="en" className="light">
                     <body
                         className={cn(
-                            "min-h-screen bg-gray-50 antialiased",
+                            "min-h-screen antialiased",
                             figtree.className
                         )}
                     >

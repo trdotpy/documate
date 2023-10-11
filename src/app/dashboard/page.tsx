@@ -2,7 +2,7 @@
 
 import React from "react";
 import LayoutWrapper from "@/components/LayoutWrapper";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -21,6 +21,9 @@ import SidebarMenu from "@/components/SidebarMenu";
 import PDFUploader from "@/components/PDFUploader";
 import { File } from "@prisma/client";
 import PDFViewer from "@/components/PDFViewer";
+import { Input } from "@/components/ui/input";
+import moment from "moment";
+import Link from "next/link";
 
 interface Props {
     files: File[];
@@ -50,44 +53,70 @@ export default function Page({}: Props) {
         fetchFiles();
     }, []);
 
-    return (
-        <LayoutWrapper className="max-w-screen-2xl">
-            {/* <SidebarMenu /> */}
-            <div className="flex h-16 items-center border-b border-gray-300 px-4">
-                <h2 className="mb-2 text-3xl font-bold tracking-tight">
-                    Hello, {user?.firstName} 👋
-                </h2>
-                <div className="ml-auto flex items-center space-x-4">
-                    {/* <SearchBar /> */}
-                    <PDFUploader />
-                </div>
-            </div>
+    // Update URL without redirecting
+    React.useEffect(() => {
+        const newUrl = `/dashboard/${selectedFileId}`;
+        history.pushState(null, "", newUrl);
+        setSelectedFileId(selectedFileId);
+    }, []);
 
-            <Card className="mt-4 flex-col md:flex">
-                <div className="flex h-16 items-center border-b border-gray-300 px-4">
+    // Function to handle unselecting the file
+    const handleReturnToDashboard = () => {
+        // Update the URL to go back to the dashboard
+        history.pushState(null, "", "/dashboard");
+
+        // Clear the selected file information
+        setSelectedFileUrl("");
+        setSelectedFileName("");
+        setSelectedFileId("");
+        setIsPDFSelected(false);
+    };
+
+    return (
+        <div className="px-20">
+            {isPDFSelected ? (
+                <Button
+                    className={buttonVariants({
+                        variant: "outline",
+                        className: "mt-4 text-stone-900",
+                    })}
+                    onClick={handleReturnToDashboard}
+                >
+                    <ChevronLeft className="mr-1.5 h-3 w-3" />
+                    Back
+                </Button>
+            ) : (
+                <div className="mt-4 flex h-16 items-center px-4">
                     <h2 className="mb-2 text-3xl font-bold tracking-tight">
-                        My Workspace
+                        {user?.firstName}'s Workspace
                     </h2>
                     <div className="ml-auto flex items-center space-x-4">
-                        <SearchBar />
+                        <PDFUploader />
                     </div>
                 </div>
-                <div className="flex h-screen justify-between">
-                    <div className="p-4">
-                        <FileList
-                            files={files}
-                            onFileSelect={(file) => {
-                                setSelectedFileUrl(file.url);
-                                setIsPDFSelected(true);
-                                setSelectedFileName(file.name);
-                                setSelectedFileId(file.id);
-                            }}
-                            selectedFileId={selectedFileId}
-                        />
-                    </div>
+            )}
 
-                    <div className="flex-1 p-4">
-                        <Card className="flex">
+            <Card className="mt-4 flex-col md:flex">
+                <div className="flex justify-between">
+                    {/* Sidebar & Files */}
+                    {!isPDFSelected && (
+                        <div>
+                            <FileList
+                                files={files}
+                                onFileSelect={(file) => {
+                                    setSelectedFileUrl(file.url);
+                                    setIsPDFSelected(true);
+                                    setSelectedFileName(file.name);
+                                    setSelectedFileId(file.id);
+                                }}
+                                selectedFileId={selectedFileId}
+                            />
+                        </div>
+                    )}
+
+                    {/* Message Panel */}
+                    <div className="flex-1 border-l border-stone-100 p-4">
+                        <div className="flex">
                             {isPDFSelected && (
                                 <PDFViewer
                                     fileURL={selectedFileUrl}
@@ -97,74 +126,88 @@ export default function Page({}: Props) {
                             <MessagePanel
                                 fileName={selectedFileName}
                                 fileId={selectedFileId}
+                                isPDFSelected={isPDFSelected}
                             />
-                        </Card>
+                        </div>
                     </div>
                 </div>
             </Card>
-        </LayoutWrapper>
-    );
-}
-
-function FileList({ files, onFileSelect, selectedFileId }: Props) {
-    return (
-        <div className="grid gap-2 overflow-hidden">
-            {files
-                .sort(
-                    (a, b) =>
-                        new Date(b.createdAt).getTime() -
-                        new Date(a.createdAt).getTime()
-                )
-                .map((file) => (
-                    <Card
-                        className={`h-24 max-w-[250px] cursor-pointer ${
-                            file.id === selectedFileId
-                                ? "bg-gray-200"
-                                : "bg-transparent hover:bg-gray-100"
-                        }`}
-                        key={file.id}
-                        onClick={() => {
-                            onFileSelect(file);
-                        }}
-                    >
-                        <CardHeader
-                            className="flex flex-row items-center justify-between space-y-0 pb-2"
-                            onClick={() => {
-                                onFileSelect(file);
-                            }}
-                        >
-                            <CardTitle className="cursor-pointer flex-wrap text-sm font-medium text-gray-800 hover:underline-offset-2">
-                                {file.name}
-                            </CardTitle>
-                        </CardHeader>
-
-                        <CardContent>
-                            <p className="text-muted-foreground text-xs">
-                                {new Date(file.createdAt).toLocaleString()}
-                            </p>
-                        </CardContent>
-                    </Card>
-                ))}
         </div>
     );
 }
 
-// interface PDFProps {
-//     fileURL: string;
-//     fileName: string;
-// }
+function FileList({ files, onFileSelect, selectedFileId }: Props) {
+    const formatDate = (createdAt: Date) => {
+        const now = moment();
+        const fileDate = moment(createdAt);
 
-// function PDFViewer({ fileURL, fileName }: PDFProps) {
-//     return (
-//         <div className="flex min-h-[600px] w-full flex-col items-center rounded-lg bg-transparent shadow">
-//             {/* <div className="flex h-14 w-full items-center justify-between border-b border-zinc-200 px-2">
-//                 <h1>{fileName}</h1>
-//             </div> */}
-//             <iframe
-//                 src={`https://docs.google.com/gview?url=${fileURL}&embedded=true`}
-//                 className="h-full w-full"
-//                 width="100%"
-//             ></iframe>
-//         </div>
-//     );
-// }
+        if (now.isSame(fileDate, "day")) {
+            return fileDate.format("HH:mm");
+        }
+        if (now.diff(fileDate, "seconds") <= 60) {
+            return "Now";
+        }
+        if (now.diff(fileDate, "days") <= 7) {
+            return fileDate.format("ddd");
+        }
+
+        return fileDate.format("D MMM");
+    };
+
+    return (
+        <div className="grid gap-y-2 overflow-hidden">
+            <div className="p-4">
+                <Input
+                    type="text"
+                    className="mb-4 w-80 px-3 py-2"
+                    placeholder="Search..."
+                />
+            </div>
+            <div className="px-6">
+                <h1 className="text-sm">Your Files</h1>
+            </div>
+            <div className="px-2">
+                {files
+                    .sort(
+                        (a, b) =>
+                            new Date(b.createdAt).getTime() -
+                            new Date(a.createdAt).getTime()
+                    )
+                    .map((file) => (
+                        <div
+                            className={`h-22 cursor-pointer rounded-lg ${
+                                file.id === selectedFileId
+                                    ? "bg-gray-200"
+                                    : "bg-transparent hover:bg-gray-100"
+                            }`}
+                            key={file.id}
+                            onClick={() => {
+                                onFileSelect(file);
+                            }}
+                        >
+                            <CardHeader
+                                className="flex flex-row items-center justify-between space-y-0 pb-2"
+                                onClick={() => {
+                                    onFileSelect(file);
+                                }}
+                            >
+                                <CardTitle className="cursor-pointer flex-wrap text-sm font-medium text-gray-800 hover:underline-offset-2">
+                                    {file.name}
+                                </CardTitle>
+                                <p className="text-muted-foreground text-xs">
+                                    {formatDate(file.createdAt)}
+                                </p>
+                            </CardHeader>
+
+                            <CardContent>
+                                <p className="text-muted-foreground text-xs">
+                                    Lorem, ipsum dolor sit amet consectetur
+                                    adipisicing elit.
+                                </p>
+                            </CardContent>
+                        </div>
+                    ))}
+            </div>
+        </div>
+    );
+}

@@ -11,8 +11,8 @@ type Props = { userId?: string | null };
 
 export default function Navbar({ userId }: Props) {
     return (
-        <LayoutWrapper className="mb-4 max-w-screen-2xl">
-            <div className="flex items-center justify-between border-b border-gray-200">
+        <nav className="h-18 sticky inset-x-0 top-0 z-30 w-full border-b border-gray-200 backdrop-blur-lg transition-all">
+            <LayoutWrapper className="flex items-center justify-between ">
                 <div className="flex items-center justify-between gap-x-3">
                     <Blocks className="mb-1 h-6 w-6" />
                     {/* <h1 className="text-xl font-medium text-gray-800">
@@ -54,7 +54,7 @@ export default function Navbar({ userId }: Props) {
                         )}
                     </>
                 </div>
-            </div>
-        </LayoutWrapper>
+            </LayoutWrapper>
+        </nav>
     );
 }

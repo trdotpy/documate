@@ -1,15 +1,22 @@
 "use client";
 
 import React from "react";
-import { Download, Loader2, Maximize, Printer } from "lucide-react";
+import {
+    ChevronLeft,
+    Download,
+    Loader2,
+    Maximize,
+    Printer,
+} from "lucide-react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/TextLayer.css";
 import { toast } from "sonner";
 import { useResizeDetector } from "react-resize-detector";
 import { Input } from "./ui/input";
 import SimpleBar from "simplebar-react";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
+import { useReactToPrint } from "react-to-print";
 
 interface PDFViewerProps {
     fileURL: string;
@@ -35,6 +42,16 @@ export default function PDFViewer({ fileURL, fileName }: PDFViewerProps) {
         }
     };
 
+    const reactToPrintContent = React.useCallback(() => {
+        return ref.current;
+    }, [ref.current]);
+
+    const handlePrint = useReactToPrint({
+        content: reactToPrintContent,
+        documentTitle: fileName,
+        removeAfterPrint: true,
+    });
+
     return (
         <div className="flex w-full flex-col items-center rounded-md bg-white shadow">
             <div className="flex h-16 w-full items-center justify-between border-b border-zinc-200 px-2">
@@ -59,11 +76,17 @@ export default function PDFViewer({ fileURL, fileName }: PDFViewerProps) {
                 </div>
                 <h1 className="font-medium">{fileName}</h1>
                 <div className="flex items-center">
-                    <Button variant="ghost" aria-label="download">
-                        <Download className="h-4 w-4" />
-                    </Button>
+                    <a href={fileURL} download={fileName}>
+                        <Button variant="ghost" aria-label="download">
+                            <Download className="h-4 w-4" />
+                        </Button>
+                    </a>
 
-                    <Button variant="ghost" aria-label="print">
+                    <Button
+                        variant="ghost"
+                        aria-label="print"
+                        onClick={handlePrint}
+                    >
                         <Printer className="h-4 w-4" />
                     </Button>
 
@@ -140,7 +163,7 @@ function FSViewer({ fileURL }: FSViewerProps) {
                     autoHide={false}
                     className="mt-6 max-h-[calc(100vh-10rem)]"
                 >
-                    <div ref={ref}>
+                    <div ref={ref} id="pdf-container">
                         <Document
                             className="max-h-full"
                             file={fileURL}

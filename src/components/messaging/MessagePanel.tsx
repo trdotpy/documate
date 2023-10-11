@@ -7,14 +7,18 @@ import { Settings, Settings2, Trash2 } from "lucide-react";
 import { Card } from "../ui/card";
 import MessageInput from "./MessageInput";
 import axios from "axios";
-import { db } from "@/prisma";
 
 interface Props {
     fileName: string;
     fileId: string;
+    isPDFSelected: boolean;
 }
 
-export default function MessagePanel({ fileName, fileId }: Props) {
+export default function MessagePanel({
+    fileName,
+    fileId,
+    isPDFSelected,
+}: Props) {
     const { input, handleInputChange, handleSubmit, messages } = useChat({
         api: "/api/message",
         body: {
@@ -24,29 +28,12 @@ export default function MessagePanel({ fileName, fileId }: Props) {
 
     return (
         <div className="relative w-full p-4">
-            {/* Header */}
-            <div className="flex justify-between border-b border-gray-200">
-                <div className="flex flex-col space-y-1.5 pb-6">
-                    <h2 className="text-lg font-semibold tracking-tight text-gray-700">
-                        {fileName}
-                    </h2>
-                    <p className="text-xs leading-3 text-gray-500">
-                        Powered by OpenAI
-                    </p>
-                </div>
-
-                <div className="mb-4 flex items-center justify-between gap-4">
-                    <Trash2
-                        className="cursor-pointer text-gray-800"
-                        size={18}
-                    />
-                    <Settings2 className="text-gray-800" size={18} />
-                </div>
-            </div>
-
             <div className="flex min-h-[600px] flex-col p-6">
                 {/* Messages List */}
-                <MessageList messages={messages} />
+                <MessageList
+                    messages={messages}
+                    isPDFSelected={isPDFSelected}
+                />
 
                 {/* Message Input */}
                 <div className="absolute inset-x-0 bottom-5 px-6 py-2">
