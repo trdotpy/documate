@@ -18,6 +18,7 @@ import {
     Layout,
     MessageCircle,
     Folder,
+    MessageSquare,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
@@ -32,6 +33,12 @@ import Skeleton from "react-loading-skeleton";
 import { formatDate } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import Sidebar from "@/components/Sidebar";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ListProps {
     files: File[];
@@ -249,24 +256,23 @@ function FileList({
                                     onFileSelect(file);
                                 }}
                             >
-                                <CardTitle className="cursor-pointer flex-wrap text-sm font-medium text-gray-800 hover:underline-offset-2">
-                                    {file.name}
+                                <CardTitle className="flex cursor-pointer items-center justify-between space-x-2 text-sm font-medium text-gray-700">
+                                    <MessageSquare className="text-muted-foreground h-4 w-4" />
+                                    <span>
+                                        {" "}
+                                        {file.name.length > 20
+                                            ? `${file.name.slice(0, 20)}...`
+                                            : file.name}
+                                    </span>
+                                    <p className="text-muted-foreground text-xs">
+                                        {formatDate(file.createdAt)}
+                                    </p>
                                 </CardTitle>
-                                <p className="text-muted-foreground text-xs">
-                                    {formatDate(file.createdAt)}
-                                </p>
                             </CardHeader>
-
-                            <CardContent>
-                                <p className="text-muted-foreground text-xs">
-                                    Lorem, ipsum dolor sit amet consectetur
-                                    adipisicing elit.
-                                </p>
-                            </CardContent>
-                            <Separator />
+                            <Separator className="mt-2" />
                         </div>
                     ))}
-                <div className="mt-6 flex justify-center">
+                <div className="mt-6 flex justify-center px-6">
                     <PDFUploader />
                 </div>
             </div>

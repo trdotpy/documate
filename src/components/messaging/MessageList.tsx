@@ -32,11 +32,11 @@ export default function MessageList({
             <div className="relative flex-1">
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
                     <div className="flex flex-col items-center gap-2 text-center text-gray-600">
-                        <h2 className="text-xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+                        <h1 className="text-xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
                             Let&apos;s get started!
-                        </h2>
+                        </h1>
                         {files.length === 0 ? (
-                            <div>
+                            <div className="mt-4">
                                 <PDFUploader />
                             </div>
                         ) : (
