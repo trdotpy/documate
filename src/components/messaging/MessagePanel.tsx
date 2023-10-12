@@ -5,7 +5,6 @@ import { Message, useChat } from "ai/react";
 import MessageList from "./MessageList";
 import { Settings, Settings2, Trash2 } from "lucide-react";
 import { Card } from "../ui/card";
-import MessageInput from "./MessageInput";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { File } from "@prisma/client";
@@ -16,6 +15,7 @@ interface Props {
     isPDFSelected: boolean;
     files: File[];
     isLoadingFiles: boolean;
+    userFirstName: string | null;
 }
 
 export default function MessagePanel({
@@ -24,6 +24,7 @@ export default function MessagePanel({
     fileId,
     isPDFSelected,
     isLoadingFiles,
+    userFirstName,
 }: Props) {
     const { data, isLoading } = useQuery({
         queryKey: ["Message", fileId],
@@ -44,8 +45,8 @@ export default function MessagePanel({
     });
 
     return (
-        <div className="relative w-full p-4">
-            <div className="flex min-h-[600px] flex-col p-6">
+        <div className="relative w-full bg-gray-50 p-4">
+            <div className="flex flex-col p-6">
                 {/* Messages List */}
                 <MessageList
                     messages={messages}
@@ -53,6 +54,7 @@ export default function MessagePanel({
                     isLoading={isLoading}
                     files={files}
                     isLoadingFiles={isLoadingFiles}
+                    userFirstName={userFirstName}
                 />
             </div>
             {/* Message Input */}

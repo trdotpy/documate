@@ -1,116 +1,137 @@
 "use client";
 
 import React from "react";
-import PDFUploader from "./PDFUploader";
-import Skeleton from "react-loading-skeleton";
-import {
-    Download,
-    File,
-    Ghost,
-    Loader2,
-    MessageSquare,
-    Trash,
-} from "lucide-react";
-import { Button } from "./ui/button";
-import Link from "next/link";
+import LayoutWrapper from "@/components/LayoutWrapper";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { CardHeader, CardTitle } from "@/components/ui/card";
+import { ChevronLeft, Folder, MessageSquare } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-import PDFViewer from "./PDFViewer";
-import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
-import SidebarMenu from "./SidebarMenu";
-import SearchBar from "./SearchBar";
-import MessagePanel from "./messaging/MessagePanel";
-import FileList from "./FileList";
+import MessagePanel from "@/components/messaging/MessagePanel";
+import PDFUploader from "@/components/PDFUploader";
+import { File } from "@prisma/client";
+import PDFViewer from "@/components/PDFViewer";
+import { Input } from "@/components/ui/input";
+import { useQuery } from "@tanstack/react-query";
+import Skeleton from "react-loading-skeleton";
+import { formatDate } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
+import Sidebar from "@/components/Sidebar";
+import FileList from "@/components/FileList";
+import Navbar from "./Navbar";
 
-interface Props {}
+interface PageProps {}
 
-const EmptyDashboard = () => (
-    <div className="relative flex-1 border-l border-l-gray-200 bg-[#f6f6f6]">
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
-            <div className="mt-16 flex flex-col items-center gap-2">
-                <Ghost className="h-8 w-8 text-zinc-800" />
-                <h3 className="text-xl font-semibold">
-                    Pretty empty around here
-                </h3>
-                <p>Let's upload your first PDF.</p>
-                <PDFUploader />
-            </div>
-        </div>
-    </div>
-);
-
-export default function UserDashboard({}: Props) {
+export default function UserDashboard({}: PageProps) {
     const router = useRouter();
     const { user } = useUser();
-    const [files, setFiles] = React.useState([]);
     const [selectedFileUrl, setSelectedFileUrl] = React.useState("");
     const [selectedFileName, setSelectedFileName] = React.useState("");
+    const [selectedFileId, setSelectedFileId] = React.useState("");
     const [isPDFSelected, setIsPDFSelected] = React.useState(false);
 
-    React.useEffect(() => {
-        const fetchFiles = async () => {
-            try {
-                const response = await axios.get("/api/files");
-                setFiles(response.data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
+    const userFirstName = user?.firstName ?? null;
 
-        fetchFiles();
-    }, []);
+    const { data, isLoading } = useQuery({
+        queryKey: ["files"],
+        queryFn: async () => {
+            const response = await axios.get("/api/files");
+            return response.data;
+        },
+    });
+
+    // Update URL without redirecting
+    React.useEffect(() => {
+        const newUrl = `/dashboard/${selectedFileId}`;
+        history.pushState(null, "", newUrl);
+        setSelectedFileId(selectedFileId);
+    }, [selectedFileId]);
+
+    // Function to handle unselecting the file
+    const handleReturnToDashboard = () => {
+        // Update the URL to go back to the dashboard
+        history.pushState(null, "", "/dashboard");
+
+        // Clear the selected file information
+        setSelectedFileUrl("");
+        setSelectedFileName("");
+        setSelectedFileId("");
+        setIsPDFSelected(false);
+    };
 
     return (
         <>
-            {/* <div className="flex min-h-screen">
-                <div className="max-w-sm">
-                    <SidebarMenu />
-                </div>
-                <div className="max-w-lg p-6">
+            <div className="flex-col md:flex">
+                <div className="flex justify-between">
+                    {/* File List */}
                     {!isPDFSelected && (
-                        <div className="mt-1 flex flex-col justify-between gap-4 border-b border-gray-200 pb-5 sm:gap-0">
-                            <div className="mb-4">
-                                <SearchBar />
-                            </div>
-                            <p className="mb-2 text-sm text-gray-600">
-                                Recent Files
-                            </p>
-
-                            <FileList
-                                files={files}
-                                onFileSelect={(file) => {
-                                    setSelectedFileUrl(file.url);
-                                    setIsPDFSelected(true);
-                                    setSelectedFileName(file.name);
-                                }}
-                            />
+                        <div className="h-full border-r border-black">
+                            {/* <div className="mt-4 flex h-16 items-center px-4">
+                                {userFirstName ? (
+                                    <h2 className="text-3xl tracking-tight">
+                                        {userFirstName}'s Files
+                                    </h2>
+                                ) : (
+                                    <Skeleton height={50} width={350} />
+                                )}
+                            </div> */}
+                            {!isPDFSelected && (
+                                <FileList
+                                    files={data}
+                                    onFileSelect={(file) => {
+                                        setSelectedFileUrl(file.url);
+                                        setIsPDFSelected(true);
+                                        setSelectedFileName(file.name);
+                                        setSelectedFileId(file.id);
+                                    }}
+                                    selectedFileId={selectedFileId}
+                                    isLoading={isLoading}
+                                />
+                            )}
                         </div>
                     )}
-                </div>
 
-                {isPDFSelected ? (
-                    <div className="flex w-full justify-between rounded">
-                        <PDFViewer
-                            fileURL={selectedFileUrl}
-                            fileName={selectedFileName}
-                        />
-                        <MessagePanel />
-                    </div>
-                ) : (
-                    <div className="relative flex-1 border-l border-l-gray-200 bg-[#f6f6f6]">
-                        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
-                            <div className="mt-16 flex flex-col items-center gap-2">
-                                <Ghost className="h-8 w-8 text-zinc-800" />
-                                <h3 className="text-xl font-semibold">
-                                    Pretty empty around here
-                                </h3>
-                                <p>Let&apos;s upload your first PDF.</p>
-                                <PDFUploader />
+                    {/* Message Panel */}
+                    <div className="flex-1">
+                        {/* {isPDFSelected && (
+                            <div className="mb-1 ml-2">
+                                <Button
+                                    className={buttonVariants({
+                                        variant: "outline",
+                                        className: "mt-4 text-stone-900",
+                                    })}
+                                    onClick={handleReturnToDashboard}
+                                >
+                                    <ChevronLeft
+                                        className="mr-1.5 h-3 w-3"
+                                        aria-label="return-to-dashboard"
+                                    />
+                                </Button>
                             </div>
+                        )} */}
+                        <div className="h-[calc(100vh-72px)] flex-col sm:flex sm:flex-row">
+                            {isPDFSelected && (
+                                <PDFViewer
+                                    fileURL={selectedFileUrl}
+                                    fileName={selectedFileName}
+                                    handleReturnToDashboard={
+                                        handleReturnToDashboard
+                                    }
+                                />
+                            )}
+                            <MessagePanel
+                                fileName={selectedFileName}
+                                fileId={selectedFileId}
+                                isPDFSelected={isPDFSelected}
+                                files={data}
+                                isLoadingFiles={isLoading}
+                                userFirstName={userFirstName}
+                            />
                         </div>
                     </div>
-                )}
-            </div> */}
+                </div>
+            </div>
         </>
     );
 }

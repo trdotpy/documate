@@ -21,11 +21,16 @@ import { useReactToPrint } from "react-to-print";
 interface PDFViewerProps {
     fileURL: string;
     fileName: string;
+    handleReturnToDashboard: () => void;
 }
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-export default function PDFViewer({ fileURL, fileName }: PDFViewerProps) {
+export default function PDFViewer({
+    fileURL,
+    fileName,
+    handleReturnToDashboard,
+}: PDFViewerProps) {
     const [numPages, setNumPages] = React.useState<number | null>();
     const [pageNumber, setPageNumber] = React.useState<number>(1);
     const [scale, setScale] = React.useState<number>(1);
@@ -56,6 +61,13 @@ export default function PDFViewer({ fileURL, fileName }: PDFViewerProps) {
         <div className="flex w-full flex-col items-center rounded-md bg-white shadow">
             <div className="flex h-16 w-full items-center justify-between border-b border-zinc-200 px-2">
                 <div className="flex items-center gap-1.5">
+                    <Button
+                        variant="ghost"
+                        aria-label="return-to-dashboard"
+                        onClick={handleReturnToDashboard}
+                    >
+                        <ChevronLeft className="h-4 w-4" />
+                    </Button>
                     <Input
                         type="number"
                         value={pageNumber}
