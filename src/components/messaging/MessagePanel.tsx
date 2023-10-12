@@ -8,17 +8,23 @@ import { Card } from "../ui/card";
 import MessageInput from "./MessageInput";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { File } from "@prisma/client";
+import { Separator } from "../ui/separator";
 
 interface Props {
     fileName: string;
     fileId: string;
     isPDFSelected: boolean;
+    files: File[];
+    isLoadingFiles: boolean;
 }
 
 export default function MessagePanel({
+    files,
     fileName,
     fileId,
     isPDFSelected,
+    isLoadingFiles,
 }: Props) {
     const { data, isLoading } = useQuery({
         queryKey: ["Message", fileId],
@@ -46,6 +52,8 @@ export default function MessagePanel({
                     messages={messages}
                     isPDFSelected={isPDFSelected}
                     isLoading={isLoading}
+                    files={files}
+                    isLoadingFiles={isLoadingFiles}
                 />
 
                 {/* Message Input */}
@@ -57,13 +65,13 @@ export default function MessagePanel({
                     >
                         <Input
                             className="flex h-10 w-full rounded-md border border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-800 placeholder-gray-800 focus:outline-none focus:ring-2 focus:ring-[#9ca3af] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            placeholder="Ask anything"
+                            placeholder="Send a message"
                             value={input}
                             onChange={handleInputChange}
                             disabled={!isPDFSelected}
                         />
                         <Button
-                            className="inline-flex h-10 items-center justify-center rounded-md bg-black px-4 py-2 text-sm font-medium text-gray-200 hover:bg-[#111827E6] disabled:pointer-events-none disabled:opacity-50"
+                            className="inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-200 disabled:pointer-events-none disabled:opacity-50"
                             disabled={!isPDFSelected}
                         >
                             Send

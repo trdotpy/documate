@@ -12,14 +12,15 @@ export default function Home() {
                     Available Now
                 </p>
             </div>
-            <h1 className="max-w-4xl text-5xl font-bold md:text-6xl lg:text-7xl">
-                Analyze your documents in{" "}
-                <span className="text-blue-600">seconds</span> using{" "}
-                <span className="text-blue-600">AI</span>
+            <h1 className="max-w-4xl text-5xl font-medium md:text-6xl lg:text-7xl">
+                Unlock the <span className="text-blue-600">value</span> in your
+                files with <span className="text-blue-600">AI</span>
             </h1>
+
             <p className="mt-5 max-w-prose text-zinc-700 sm:text-lg">
-                Documate lets you have conversations with any PDF document.
-                Simply upload your file and start asking questions right away.
+                Our platform empowers you to efficiently handle PDF documents
+                through intuitive AI-driven conversations. Get more done in less
+                time.
             </p>
 
             <Link

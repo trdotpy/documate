@@ -76,8 +76,10 @@ export default function PDFUploader({}: Props) {
             }}
         >
             <DialogTrigger onClick={() => setIsOpen(true)} asChild>
-                <div>
-                    <Button {...getRootProps()}>Upload PDF</Button>
+                <div className="w-full px-8">
+                    <Button {...getRootProps()} className="w-full">
+                        Upload PDF
+                    </Button>
                     <input
                         {...getInputProps()}
                         type="file"

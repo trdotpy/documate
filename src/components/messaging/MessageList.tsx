@@ -1,34 +1,49 @@
 import { cn } from "@/lib/utils";
+import { File } from "@prisma/client";
 import { Message } from "ai/react";
 import { Loader2 } from "lucide-react";
 import React from "react";
+import PDFUploader from "../PDFUploader";
 
 interface Props {
     messages: Message[];
     isLoading?: boolean;
+    isLoadingFiles: boolean;
     isPDFSelected: boolean;
+    files: File[];
 }
 
 export default function MessageList({
     messages,
     isPDFSelected,
     isLoading,
+    files,
+    isLoadingFiles,
 }: Props) {
-    if (isPDFSelected && isLoading) {
+    if (isLoadingFiles || (isPDFSelected && isLoading))
         return (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                 <Loader2 className="h-6 w-6 animate-spin" />
             </div>
         );
-    }
+
     if (!isPDFSelected && messages.length < 1)
         return (
             <div className="relative flex-1">
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
-                    <div className="mt-16 flex flex-col items-center gap-2 text-center text-gray-600">
-                        <h3 className="text-xl font-semibold">
-                            Select a file to start a chat.
-                        </h3>
+                    <div className="flex flex-col items-center gap-2 text-center text-gray-600">
+                        <h2 className="text-xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+                            Let&apos;s get started!
+                        </h2>
+                        {files.length === 0 ? (
+                            <div>
+                                <PDFUploader />
+                            </div>
+                        ) : (
+                            <h3 className="text-xl font-semibold">
+                                Choose a file to begin.
+                            </h3>
+                        )}
                     </div>
                 </div>
             </div>
