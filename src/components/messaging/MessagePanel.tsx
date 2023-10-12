@@ -9,7 +9,6 @@ import MessageInput from "./MessageInput";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { File } from "@prisma/client";
-import { Separator } from "../ui/separator";
 
 interface Props {
     fileName: string;
@@ -55,29 +54,28 @@ export default function MessagePanel({
                     files={files}
                     isLoadingFiles={isLoadingFiles}
                 />
-
-                {/* Message Input */}
-                <div className="absolute inset-x-0 bottom-5 px-6 py-2">
-                    <form
-                        className="flex w-full items-center justify-center space-x-2"
-                        onSubmit={handleSubmit}
-                        id="message-input"
+            </div>
+            {/* Message Input */}
+            <div className="absolute inset-x-0 bottom-5 px-6 py-2">
+                <form
+                    className="flex w-full items-center justify-center space-x-2"
+                    onSubmit={handleSubmit}
+                    id="message-input"
+                >
+                    <Input
+                        className="flex h-10 w-full rounded-md border border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-800 placeholder-gray-800 focus:outline-none focus:ring-2 focus:ring-[#9ca3af] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        placeholder="Send a message"
+                        value={input}
+                        onChange={handleInputChange}
+                        disabled={!isPDFSelected}
+                    />
+                    <Button
+                        className="inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-200 disabled:pointer-events-none disabled:opacity-50"
+                        disabled={!isPDFSelected}
                     >
-                        <Input
-                            className="flex h-10 w-full rounded-md border border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-800 placeholder-gray-800 focus:outline-none focus:ring-2 focus:ring-[#9ca3af] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            placeholder="Send a message"
-                            value={input}
-                            onChange={handleInputChange}
-                            disabled={!isPDFSelected}
-                        />
-                        <Button
-                            className="inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-200 disabled:pointer-events-none disabled:opacity-50"
-                            disabled={!isPDFSelected}
-                        >
-                            Send
-                        </Button>
-                    </form>
-                </div>
+                        Send
+                    </Button>
+                </form>
             </div>
         </div>
     );

@@ -3,23 +3,8 @@
 import React from "react";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import { Button, buttonVariants } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import {
-    ChevronDown,
-    ChevronLeft,
-    FileText,
-    Layout,
-    MessageCircle,
-    Folder,
-    MessageSquare,
-} from "lucide-react";
+import { CardHeader, CardTitle } from "@/components/ui/card";
+import { ChevronLeft, Folder, MessageSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
@@ -33,12 +18,6 @@ import Skeleton from "react-loading-skeleton";
 import { formatDate } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import Sidebar from "@/components/Sidebar";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 interface ListProps {
     files: File[];
@@ -90,20 +69,7 @@ export default function Page({}: PageProps) {
                 <div className="flex justify-between">
                     {/* Sidebar */}
                     <Sidebar />
-                    {/* {isPDFSelected && (
-                        <div className="ml-4">
-                            <Button
-                                className={buttonVariants({
-                                    variant: "outline",
-                                    className: "mt-4 text-stone-900",
-                                })}
-                                onClick={handleReturnToDashboard}
-                            >
-                                <ChevronLeft className="mr-1.5 h-3 w-3" />
-                                Dashboard
-                            </Button>
-                        </div>
-                    )} */}
+
                     {/* File List */}
                     {!isPDFSelected && (
                         <div className="h-screen border-r border-black">
@@ -115,7 +81,6 @@ export default function Page({}: PageProps) {
                                 ) : (
                                     <Skeleton height={50} width={350} />
                                 )}
-                                <ChevronDown className="ml-2" />
                             </div>
                             {!isPDFSelected && (
                                 <FileList
@@ -240,7 +205,7 @@ function FileList({
                     )
                     .map((file) => (
                         <div
-                            className={`h-22 cursor-pointer rounded-lg ${
+                            className={`h-22 cursor-pointer ${
                                 file.id === selectedFileId
                                     ? "bg-gray-200"
                                     : "bg-transparent hover:bg-gray-100"
@@ -260,14 +225,14 @@ function FileList({
                                     <MessageSquare className="text-muted-foreground h-4 w-4" />
                                     <span>
                                         {" "}
-                                        {file.name.length > 20
-                                            ? `${file.name.slice(0, 20)}...`
+                                        {file.name.length > 30
+                                            ? `${file.name.slice(0, 30)}...`
                                             : file.name}
                                     </span>
-                                    <p className="text-muted-foreground text-xs">
-                                        {formatDate(file.createdAt)}
-                                    </p>
                                 </CardTitle>
+                                <p className="text-muted-foreground text-xs">
+                                    {formatDate(file.createdAt)}
+                                </p>
                             </CardHeader>
                             <Separator className="mt-2" />
                         </div>

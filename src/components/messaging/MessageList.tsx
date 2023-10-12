@@ -23,7 +23,7 @@ export default function MessageList({
     if (isLoadingFiles || (isPDFSelected && isLoading))
         return (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                <Loader2 className="h-6 w-6 animate-spin" />
+                <Loader2 className="h-12 w-12 animate-spin" />
             </div>
         );
 

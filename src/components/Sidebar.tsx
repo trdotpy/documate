@@ -1,10 +1,16 @@
 import { Blocks, Home, Info, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-type Props = {};
+interface SidebarProps {}
 
-export default function Sidebar({}: Props) {
+export default function Sidebar({}: SidebarProps) {
     return (
         <div className="flex h-screen w-16 flex-col justify-between border-e bg-white">
             <div>
@@ -18,57 +24,71 @@ export default function Sidebar({}: Props) {
                 </Link>
 
                 <div className="border-t border-gray-100">
-                    <div className="px-2">
-                        <ul className="space-y-6 border-t border-gray-100 pt-4">
-                            <li>
-                                <a
-                                    href=""
-                                    className="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                                >
-                                    <Home
-                                        className="h-5 w-5 opacity-75"
-                                        aria-label="dashboard"
-                                    />
+                    <TooltipProvider>
+                        <div className="px-2">
+                            <ul className="space-y-6 border-t border-gray-100 pt-4">
+                                <li>
+                                    <Tooltip delayDuration={100}>
+                                        <TooltipTrigger asChild>
+                                            <Link
+                                                href="/dashboard"
+                                                className="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                                            >
+                                                <Home
+                                                    className="h-5 w-5 opacity-75"
+                                                    aria-label="dashboard"
+                                                />
 
-                                    <span className="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100">
-                                        Dashboard
-                                    </span>
-                                </a>
-                            </li>
+                                                <TooltipContent className="absolute left-7">
+                                                    Dashboard
+                                                </TooltipContent>
+                                            </Link>
+                                        </TooltipTrigger>
+                                    </Tooltip>
+                                </li>
 
-                            <li>
-                                <a
-                                    href=""
-                                    className="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                                >
-                                    <Info
-                                        className="h-5 w-5 opacity-75"
-                                        aria-label="documentation"
-                                    />
+                                <li>
+                                    <Tooltip delayDuration={100}>
+                                        <TooltipTrigger asChild>
+                                            <Link
+                                                href="/docs"
+                                                className="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                                            >
+                                                <Info
+                                                    className="h-5 w-5 opacity-75"
+                                                    aria-label="documentation"
+                                                />
 
-                                    <span className="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100">
-                                        Docs
-                                    </span>
-                                </a>
-                            </li>
+                                                <TooltipContent className="absolute left-7">
+                                                    Docs
+                                                </TooltipContent>
+                                            </Link>
+                                        </TooltipTrigger>
+                                    </Tooltip>
+                                </li>
 
-                            <li>
-                                <a
-                                    href=""
-                                    className="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                                >
-                                    <Settings
-                                        className="h-5 w-5 opacity-75"
-                                        aria-label="account-settings"
-                                    />
+                                <li>
+                                    <Tooltip delayDuration={100}>
+                                        <TooltipTrigger asChild>
+                                            <Link
+                                                href="/settings"
+                                                className="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                                            >
+                                                <Settings
+                                                    className="h-5 w-5 opacity-75"
+                                                    aria-label="account-settings"
+                                                />
 
-                                    <span className="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100">
-                                        Account Settings
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                                                <TooltipContent className="absolute left-7">
+                                                    Account
+                                                </TooltipContent>
+                                            </Link>
+                                        </TooltipTrigger>
+                                    </Tooltip>
+                                </li>
+                            </ul>
+                        </div>
+                    </TooltipProvider>
                 </div>
             </div>
 
