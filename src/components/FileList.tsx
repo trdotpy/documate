@@ -51,7 +51,7 @@ export default function FileList({
             </div>
 
             <div className="mt-4">
-                <div className="mx-6 flex items-center justify-start">
+                <div className="mx-6 flex items-center justify-start ">
                     <Folder className="h-4 w-4 text-gray-500" />
                     <h1 className="ml-2 text-sm tracking-tight text-gray-500">
                         All
@@ -97,7 +97,7 @@ export default function FileList({
                             <Separator className="mt-2" />
                         </div>
                     ))}
-                <div className="mt-6 flex justify-center px-6">
+                <div className="mt-6 flex justify-center px-6 ">
                     <PDFUploader />
                 </div>
             </div>

@@ -17,9 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
 import { formatDate } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-import Sidebar from "@/components/Sidebar";
 import FileList from "@/components/FileList";
-import Navbar from "./Navbar";
 
 interface PageProps {}
 
@@ -67,15 +65,6 @@ export default function UserDashboard({}: PageProps) {
                     {/* File List */}
                     {!isPDFSelected && (
                         <div className="h-full border-r border-black">
-                            {/* <div className="mt-4 flex h-16 items-center px-4">
-                                {userFirstName ? (
-                                    <h2 className="text-3xl tracking-tight">
-                                        {userFirstName}'s Files
-                                    </h2>
-                                ) : (
-                                    <Skeleton height={50} width={350} />
-                                )}
-                            </div> */}
                             {!isPDFSelected && (
                                 <FileList
                                     files={data}
@@ -94,22 +83,6 @@ export default function UserDashboard({}: PageProps) {
 
                     {/* Message Panel */}
                     <div className="flex-1">
-                        {/* {isPDFSelected && (
-                            <div className="mb-1 ml-2">
-                                <Button
-                                    className={buttonVariants({
-                                        variant: "outline",
-                                        className: "mt-4 text-stone-900",
-                                    })}
-                                    onClick={handleReturnToDashboard}
-                                >
-                                    <ChevronLeft
-                                        className="mr-1.5 h-3 w-3"
-                                        aria-label="return-to-dashboard"
-                                    />
-                                </Button>
-                            </div>
-                        )} */}
                         <div className="h-[calc(100vh-72px)] flex-col sm:flex sm:flex-row">
                             {isPDFSelected && (
                                 <PDFViewer

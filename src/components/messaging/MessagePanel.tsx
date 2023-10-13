@@ -58,7 +58,7 @@ export default function MessagePanel({
                 />
             </div>
             {/* Message Input */}
-            <div className="absolute inset-x-0 bottom-5 px-6 py-2">
+            <div className="absolute inset-x-0 bottom-0 px-6 py-2">
                 <form
                     className="flex w-full items-center justify-center space-x-2"
                     onSubmit={handleSubmit}
