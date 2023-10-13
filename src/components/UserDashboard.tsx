@@ -59,52 +59,50 @@ export default function UserDashboard({}: PageProps) {
     };
 
     return (
-        <>
-            <div className="flex-col md:flex">
-                <div className="flex justify-between">
-                    {/* File List */}
-                    {!isPDFSelected && (
-                        <div className="h-full border-r border-black">
-                            {!isPDFSelected && (
-                                <FileList
-                                    files={data}
-                                    onFileSelect={(file) => {
-                                        setSelectedFileUrl(file.url);
-                                        setIsPDFSelected(true);
-                                        setSelectedFileName(file.name);
-                                        setSelectedFileId(file.id);
-                                    }}
-                                    selectedFileId={selectedFileId}
-                                    isLoading={isLoading}
-                                />
-                            )}
-                        </div>
-                    )}
-
-                    {/* Message Panel */}
-                    <div className="flex-1">
-                        <div className="h-[calc(100vh-72px)] flex-col sm:flex sm:flex-row">
-                            {isPDFSelected && (
-                                <PDFViewer
-                                    fileURL={selectedFileUrl}
-                                    fileName={selectedFileName}
-                                    handleReturnToDashboard={
-                                        handleReturnToDashboard
-                                    }
-                                />
-                            )}
-                            <MessagePanel
-                                fileName={selectedFileName}
-                                fileId={selectedFileId}
-                                isPDFSelected={isPDFSelected}
+        <div className="flex-col border-t border-gray-200 md:flex">
+            <div className="flex justify-between">
+                {/* File List */}
+                {!isPDFSelected && (
+                    <div className="h-full border-r border-gray-200">
+                        {!isPDFSelected && (
+                            <FileList
                                 files={data}
-                                isLoadingFiles={isLoading}
-                                userFirstName={userFirstName}
+                                onFileSelect={(file) => {
+                                    setSelectedFileUrl(file.url);
+                                    setIsPDFSelected(true);
+                                    setSelectedFileName(file.name);
+                                    setSelectedFileId(file.id);
+                                }}
+                                selectedFileId={selectedFileId}
+                                isLoading={isLoading}
                             />
-                        </div>
+                        )}
+                    </div>
+                )}
+
+                {/* Message Panel */}
+                <div className="flex-1">
+                    <div className="h-[calc(100vh-72px)] flex-col sm:flex sm:flex-row">
+                        {isPDFSelected && (
+                            <PDFViewer
+                                fileURL={selectedFileUrl}
+                                fileName={selectedFileName}
+                                handleReturnToDashboard={
+                                    handleReturnToDashboard
+                                }
+                            />
+                        )}
+                        <MessagePanel
+                            fileName={selectedFileName}
+                            fileId={selectedFileId}
+                            isPDFSelected={isPDFSelected}
+                            files={data}
+                            isLoadingFiles={isLoading}
+                            userFirstName={userFirstName}
+                        />
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

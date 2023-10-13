@@ -113,7 +113,7 @@ export default function Navbar({ userId }: Props) {
             </nav>
 
             {/* Desktop Navbar */}
-            <nav className="h-18 sticky inset-x-0 top-0 hidden w-full border-b border-gray-300 py-4 backdrop-blur-lg transition-all sm:block">
+            <nav className="h-18 sticky inset-x-0 top-0 hidden w-full bg-transparent py-4 transition-all sm:block">
                 <div className="flex items-center justify-between px-6">
                     <div className="flex items-center justify-between gap-x-2 text-gray-900">
                         <Link

@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter, Figtree } from "next/font/google";
+import { Nunito_Sans, Figtree } from "next/font/google";
 import { ClerkProvider, auth } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "sonner";
@@ -11,7 +11,10 @@ import "react-loading-skeleton/dist/skeleton.css";
 import "simplebar-react/dist/simplebar.min.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const nunitoSans = Nunito_Sans({
+    subsets: ["latin"],
+    weight: ["400", "500", "700"],
+});
 
 const figtree = Figtree({
     weight: ["300", "400", "500", "700"],
@@ -37,7 +40,7 @@ export default function RootLayout({ children }: Props) {
                     <body
                         className={cn(
                             "min-h-screen antialiased",
-                            inter.className
+                            nunitoSans.className
                         )}
                     >
                         <Navbar userId={userId} />
