@@ -11,7 +11,7 @@ export async function GET(req: Request, res: Response) {
         const returnUrl = absoluteUrl("/");
 
         if (!userId) {
-            return new NextResponse("Unauthorized", { status: 401 });
+            return new Response("Unauthorized", { status: 401 });
         }
 
         const dbUser = await db.user.findFirst({
@@ -59,6 +59,6 @@ export async function GET(req: Request, res: Response) {
         return NextResponse.json({ url: stripeSession.url });
     } catch (error) {
         console.log("Stripe error", error);
-        return new NextResponse("Internal server error", { status: 500 });
+        return new Response("Internal server error", { status: 500 });
     }
 }
