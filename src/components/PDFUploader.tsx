@@ -1,9 +1,8 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { FolderPlus, Loader, Loader2, UploadCloud } from "lucide-react";
+import { Loader2, UploadCloud } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
 import Dropzone, { useDropzone } from "react-dropzone";
@@ -40,7 +39,6 @@ export default function PDFUploader({}: Props) {
 function PDFUpload({}: Props) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
-    const router = useRouter();
     const { user } = useUser();
     const userId = user?.id;
 
@@ -79,14 +77,12 @@ function PDFUpload({}: Props) {
                         "An error occurred while creating the file record."
                     );
                 }
-
-                // Redirect to /dashboard/ with file ID as query parameter
-                router.push(`/dashboard/${data.fileId}`);
             } catch (error) {
                 console.error;
             } finally {
                 setIsLoading(false);
                 toast.success("Successfully uploaded file!");
+                window.location.reload();
             }
         },
     });
@@ -114,7 +110,7 @@ function PDFUpload({}: Props) {
                             or drag and drop
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
-                            Accepted file types: PDF (Max size: 10mb)
+                            Accepted file types: .pdf (Max size: 10mb)
                         </p>
                     </div>
                 </div>

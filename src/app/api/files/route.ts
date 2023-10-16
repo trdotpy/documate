@@ -35,7 +35,7 @@ export async function POST(req: Request, res: Response) {
             },
         });
 
-        console.log("File record created in database:", fileRecord);
+        // console.log("File record created in database:", fileRecord);
 
         await uploadToPinecone(fileId);
     } catch (error) {
@@ -92,7 +92,7 @@ export async function DELETE(req: Request, res: Response) {
 
     try {
         const body = await req.json();
-        console.log("Body request data:", body);
+        // console.log("Body request data:", body);
 
         // Delete file from S3
         await deleteFromS3(body.fileId);
@@ -107,7 +107,7 @@ export async function DELETE(req: Request, res: Response) {
             },
         });
 
-        console.log("File deleted:", body.fileId);
+        // console.log("File deleted:", body.fileId);
     } catch (error) {
         console.error(error);
         return NextResponse.json(
