@@ -49,7 +49,7 @@ export default function PDFViewer({
 
     const reactToPrintContent = React.useCallback(() => {
         return ref.current;
-    }, []);
+    }, [ref]);
 
     const handlePrint = useReactToPrint({
         content: reactToPrintContent,
