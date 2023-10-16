@@ -4,7 +4,7 @@ import { deleteFromS3, getS3Url } from "@/lib/aws/s3-client";
 import { deleteFromPinecone, uploadToPinecone } from "@/lib/pinecone/pinecone";
 import { auth } from "@clerk/nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 
 // POST a new file
@@ -36,7 +36,7 @@ export async function POST(req: Request, res: Response) {
             },
         });
 
-        console.log("File record created in database:", fileRecord);
+        // console.log("File record created in database:", fileRecord);
 
         await uploadToPinecone(fileId);
     } catch (error) {
@@ -51,7 +51,7 @@ export async function POST(req: Request, res: Response) {
 }
 
 // GET all files from a user
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
     const { userId } = auth();
     if (!userId) {
         return NextResponse.json(

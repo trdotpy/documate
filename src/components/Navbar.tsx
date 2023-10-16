@@ -14,7 +14,7 @@ interface Props {
 
 export default function Navbar({ userId }: Props) {
     const pathname = usePathname();
-    const isLanding = pathname === "/";
+    const isDashboard = pathname === "/dashboard";
 
     return (
         <>
@@ -157,7 +157,7 @@ export default function Navbar({ userId }: Props) {
                         <div>
                             {userId ? (
                                 <div className="flex items-center justify-between gap-x-4">
-                                    {isLanding && (
+                                    {!isDashboard && (
                                         <Link
                                             href="/dashboard"
                                             className={buttonVariants({
