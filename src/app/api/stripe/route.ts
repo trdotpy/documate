@@ -4,7 +4,7 @@ import { absoluteUrl } from "@/lib/utils";
 import { auth, currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: Request, res: Response) {
     try {
         const { userId } = auth();
         const user = await currentUser();
