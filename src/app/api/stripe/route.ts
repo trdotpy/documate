@@ -4,7 +4,10 @@ import { absoluteUrl } from "@/lib/utils";
 import { auth, currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request, res: Response) {
+export async function GET(
+    req: Request,
+    res: Response
+): Promise<void | Response> {
     try {
         const { userId } = auth();
         const user = await currentUser();
@@ -21,11 +24,13 @@ export async function GET(req: Request, res: Response) {
         });
 
         if (!dbUser) {
-            return {
-                isSubscribed: false,
-                isCanceled: false,
-                stripeCurrentPeriodEnd: null,
-            };
+            return new Response(
+                JSON.stringify({
+                    isSubscribed: false,
+                    isCanceled: false,
+                }),
+                { status: 200, headers: { "Content-Type": "application/json" } }
+            );
         }
 
         const stripeSession = await stripe.checkout.sessions.create({
