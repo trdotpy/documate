@@ -48,21 +48,23 @@ export default function FileList({
     return (
         <div className="grid overflow-hidden">
             <div className="p-4">
+                <div className="justify-center space-y-2 sm:flex sm:gap-x-2 sm:space-y-0">
+                    <PDFUploader />
+                    <SubscribeBtn isSubscribed={isSubscribed} />
+                </div>
+            </div>
+
+            {/* Todo: Add search */}
+            {/* <div className="px-4">
                 <Input
                     type="text"
                     className="w-full px-3 py-2"
                     placeholder="Search"
                 />
-            </div>
-
-            {/* Upgrade */}
-            <div className="px-4">
-                <SubscribeBtn isSubscribed={isSubscribed} />
-            </div>
+            </div> */}
 
             <div className="mt-4">
                 <div className="mx-6 flex items-center justify-start ">
-                    {/* <Folder className="h-4 w-4 text-gray-500" /> */}
                     <h1 className="text-sm font-semibold uppercase text-gray-500">
                         All
                     </h1>
@@ -100,16 +102,13 @@ export default function FileList({
                                             : file.name}
                                     </span>
                                 </CardTitle>
-                                <p className="text-muted-foreground text-xs">
+                                <p className="text-muted-foreground text-xs sm:ml-8">
                                     {formatDate(file.createdAt)}
                                 </p>
                             </CardHeader>
                             <Separator className="mt-2" />
                         </div>
                     ))}
-                <div className="mt-6 flex justify-center px-6 ">
-                    <PDFUploader />
-                </div>
             </div>
         </div>
     );

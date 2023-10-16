@@ -13,6 +13,31 @@ import { useUser } from "@clerk/clerk-react";
 type Props = {};
 
 export default function PDFUploader({}: Props) {
+    const [isOpen, setIsOpen] = React.useState<boolean>(false);
+    return (
+        <Dialog
+            open={isOpen}
+            onOpenChange={(v) => {
+                if (!v) {
+                    setIsOpen(v);
+                }
+            }}
+        >
+            <DialogTrigger onClick={() => setIsOpen(true)} asChild>
+                <div className="w-full">
+                    <Button variant="outline" className="w-full">
+                        Add PDF
+                    </Button>
+                </div>
+            </DialogTrigger>
+            <DialogContent>
+                <PDFUpload />
+            </DialogContent>
+        </Dialog>
+    );
+}
+
+function PDFUpload({}: Props) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
     const router = useRouter();
@@ -67,64 +92,39 @@ export default function PDFUploader({}: Props) {
     });
 
     return (
-        <>
-            <div className="relative flex w-full items-center justify-center">
-                <label
-                    htmlFor="dropzone-file"
-                    className="flex h-44 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100"
-                    {...getRootProps()}
-                >
-                    <div className="flex flex-col items-center justify-center p-6">
-                        <div className="flex flex-col items-center justify-center p-6">
-                            {isLoading ? (
-                                <div>
-                                    <Loader2 className="mb-4 h-8 w-8 animate-spin text-gray-500 dark:text-gray-400" />
-                                </div>
-                            ) : (
-                                <UploadCloud className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400" />
-                            )}
-                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                <span className="font-semibold">
-                                    Click to upload
-                                </span>{" "}
-                                or drag and drop
-                            </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">
-                                Accepted file types: PDF (Max size: 10mb)
-                            </p>
-                        </div>
-                    </div>
-                    <input
-                        {...getInputProps()}
-                        id="dropzone-file"
-                        type="file"
-                        className="hidden"
-                    />
-                </label>
-            </div>
-
-            {/* <Dialog
-                open={isOpen}
-                onOpenChange={(v) => {
-                    if (!v) {
-                        setIsOpen(v);
-                    }
-                }}
+        <div className="relative flex w-full items-center justify-center p-4">
+            <label
+                htmlFor="dropzone-file"
+                className="flex h-44 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100"
+                {...getRootProps()}
             >
-                <DialogTrigger onClick={() => setIsOpen(true)} asChild>
-                    <div className="w-full px-8">
-                        <Button {...getRootProps()} className="w-full">
-                            Upload PDF
-                        </Button>
-                        <input
-                            {...getInputProps()}
-                            type="file"
-                            id="dropzone-file"
-                            className="hidden"
-                        />
+                <div className="flex flex-col items-center justify-center p-6">
+                    <div className="flex flex-col items-center justify-center p-6">
+                        {isLoading ? (
+                            <div>
+                                <Loader2 className="mb-4 h-8 w-8 animate-spin text-gray-500 dark:text-gray-400" />
+                            </div>
+                        ) : (
+                            <UploadCloud className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400" />
+                        )}
+                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                            <span className="font-semibold">
+                                Click to upload
+                            </span>{" "}
+                            or drag and drop
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                            Accepted file types: PDF (Max size: 10mb)
+                        </p>
                     </div>
-                </DialogTrigger>
-            </Dialog> */}
-        </>
+                </div>
+                <input
+                    {...getInputProps()}
+                    id="dropzone-file"
+                    type="file"
+                    className="hidden"
+                />
+            </label>
+        </div>
     );
 }

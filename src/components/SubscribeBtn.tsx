@@ -27,7 +27,7 @@ export default function SubscribeBtn({ isSubscribed }: SubscribeBtnProps) {
             variant="outline"
             className="w-full"
         >
-            {isSubscribed ? "Manage Subscriptions" : "Upgrade"}
+            {isSubscribed ? "Manage Subscriptions" : "Upgrade Plan"}
         </Button>
     );
 }
