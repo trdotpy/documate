@@ -44,6 +44,8 @@ export default function MessagePanel({
         initialMessages: data || [],
     });
 
+    const isExceedingFreeTier = messages.length > 5;
+
     return (
         <div className="relative w-full bg-gray-50 p-4">
             <div className="flex flex-col p-6">
@@ -55,8 +57,10 @@ export default function MessagePanel({
                     files={files}
                     isLoadingFiles={isLoadingFiles}
                     userFirstName={userFirstName}
+                    isExceedingFreeTier={isExceedingFreeTier}
                 />
             </div>
+
             {/* Message Input */}
             <div className="absolute inset-x-0 bottom-0 px-6 py-2">
                 <form
@@ -69,15 +73,18 @@ export default function MessagePanel({
                         placeholder="Send a message"
                         value={input}
                         onChange={handleInputChange}
-                        disabled={!isPDFSelected}
+                        disabled={!isPDFSelected || isExceedingFreeTier}
                     />
                     <Button
                         className="inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-200 disabled:pointer-events-none disabled:opacity-50"
-                        disabled={!isPDFSelected}
+                        disabled={!isPDFSelected || isExceedingFreeTier}
                     >
                         Send
                     </Button>
                 </form>
+                <div className="mt-1 flex justify-center">
+                    <h2 className="text-xs text-gray-600">Powered by OpenAI</h2>
+                </div>
             </div>
         </div>
     );

@@ -7,12 +7,16 @@ import { CardHeader, CardTitle } from "./ui/card";
 import { Separator } from "./ui/separator";
 import PDFUploader from "./PDFUploader";
 import { File } from "@prisma/client";
+import axios from "axios";
+import { Button } from "./ui/button";
+import SubscribeBtn from "./SubscribeBtn";
 
 interface ListProps {
     files: File[];
     onFileSelect: (file: any) => void;
     selectedFileId: string;
     isLoading: boolean;
+    isSubscribed: boolean;
 }
 
 export default function FileList({
@@ -20,6 +24,7 @@ export default function FileList({
     onFileSelect,
     selectedFileId,
     isLoading,
+    isSubscribed,
 }: ListProps) {
     if (isLoading)
         return (
@@ -50,10 +55,15 @@ export default function FileList({
                 />
             </div>
 
+            {/* Upgrade */}
+            <div className="px-4">
+                <SubscribeBtn isSubscribed={isSubscribed} />
+            </div>
+
             <div className="mt-4">
                 <div className="mx-6 flex items-center justify-start ">
-                    <Folder className="h-4 w-4 text-gray-500" />
-                    <h1 className="ml-2 text-sm tracking-tight text-gray-500">
+                    {/* <Folder className="h-4 w-4 text-gray-500" /> */}
+                    <h1 className="text-sm font-semibold uppercase text-gray-500">
                         All
                     </h1>
                 </div>

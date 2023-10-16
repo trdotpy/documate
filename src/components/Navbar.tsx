@@ -6,12 +6,16 @@ import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 import { Blocks, ChevronDown } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { usePathname } from "next/navigation";
 
 interface Props {
     userId: string | null;
 }
 
 export default function Navbar({ userId }: Props) {
+    const pathname = usePathname();
+    const isLanding = pathname === "/";
+
     return (
         <>
             {/* Mobile Navbar */}
@@ -153,15 +157,17 @@ export default function Navbar({ userId }: Props) {
                         <div>
                             {userId ? (
                                 <div className="flex items-center justify-between gap-x-4">
-                                    <Link
-                                        href="/dashboard"
-                                        className={buttonVariants({
-                                            variant: "outline",
-                                            size: "sm",
-                                        })}
-                                    >
-                                        Dashboard
-                                    </Link>
+                                    {isLanding && (
+                                        <Link
+                                            href="/dashboard"
+                                            className={buttonVariants({
+                                                variant: "outline",
+                                                size: "sm",
+                                            })}
+                                        >
+                                            Dashboard
+                                        </Link>
+                                    )}
                                     <UserButton afterSignOutUrl="/" />
                                 </div>
                             ) : (

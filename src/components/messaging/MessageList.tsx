@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 import { File } from "@prisma/client";
 import { Message } from "ai/react";
-import { Loader2 } from "lucide-react";
-import React from "react";
-import PDFUploader from "../PDFUploader";
+import { Loader2, AlertOctagon } from "lucide-react";
+import Link from "next/link";
+import { buttonVariants } from "../ui/button";
 
 interface Props {
     messages: Message[];
@@ -12,6 +12,7 @@ interface Props {
     isPDFSelected: boolean;
     files: File[];
     userFirstName: string | null;
+    isExceedingFreeTier: boolean;
 }
 
 export default function MessageList({
@@ -21,6 +22,7 @@ export default function MessageList({
     files,
     isLoadingFiles,
     userFirstName,
+    isExceedingFreeTier,
 }: Props) {
     if (isLoadingFiles || (isPDFSelected && isLoading))
         return (
@@ -37,6 +39,32 @@ export default function MessageList({
                         <h1 className="text-xl font-bold tracking-tight sm:text-4xl">
                             DocuMate
                         </h1>
+                    </div>
+                </div>
+            </div>
+        );
+
+    if (isPDFSelected && isExceedingFreeTier)
+        return (
+            <div className="flex-1">
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
+                    <div className="flex flex-col items-center gap-2 text-center text-gray-800">
+                        <AlertOctagon />
+                        <h3 className="text-xl font-semibold">
+                            You can only send up to 5 messages per PDF on your
+                            plan.
+                        </h3>
+                        <div className="flex justify-between gap-x-2">
+                            <Link
+                                href="/pricing"
+                                className={buttonVariants({
+                                    variant: "default",
+                                    className: "mt-2 font-semibold",
+                                })}
+                            >
+                                View Plans
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

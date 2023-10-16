@@ -1,27 +1,19 @@
 "use client";
 
 import React from "react";
-import LayoutWrapper from "@/components/LayoutWrapper";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { CardHeader, CardTitle } from "@/components/ui/card";
-import { ChevronLeft, Folder, MessageSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import MessagePanel from "@/components/messaging/MessagePanel";
-import PDFUploader from "@/components/PDFUploader";
-import { File } from "@prisma/client";
 import PDFViewer from "@/components/PDFViewer";
-import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
-import Skeleton from "react-loading-skeleton";
-import { formatDate } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
 import FileList from "@/components/FileList";
 
-interface PageProps {}
+interface PageProps {
+    isSubscribed: boolean;
+}
 
-export default function UserDashboard({}: PageProps) {
+export default function UserDashboard({ isSubscribed }: PageProps) {
     const router = useRouter();
     const { user } = useUser();
     const [selectedFileUrl, setSelectedFileUrl] = React.useState("");
@@ -63,7 +55,7 @@ export default function UserDashboard({}: PageProps) {
             <div className="flex justify-between">
                 {/* File List */}
                 {!isPDFSelected && (
-                    <div className="h-full border-r border-gray-200">
+                    <div className="h-full">
                         {!isPDFSelected && (
                             <FileList
                                 files={data}
@@ -75,13 +67,14 @@ export default function UserDashboard({}: PageProps) {
                                 }}
                                 selectedFileId={selectedFileId}
                                 isLoading={isLoading}
+                                isSubscribed={isSubscribed}
                             />
                         )}
                     </div>
                 )}
 
                 {/* Message Panel */}
-                <div className="flex-1">
+                <div className="flex-1 border-l border-gray-300">
                     <div className="h-[calc(100vh-72px)] flex-col sm:flex sm:flex-row">
                         {isPDFSelected && (
                             <PDFViewer
