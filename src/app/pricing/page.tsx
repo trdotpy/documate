@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -11,6 +11,8 @@ import {
 import { checkSubscription } from "@/lib/stripe/stripe";
 import { Check } from "lucide-react";
 import SubscribeBtn from "@/components/SubscribeBtn";
+import { auth } from "@clerk/nextjs";
+import Link from "next/link";
 
 type Props = {};
 
@@ -40,6 +42,7 @@ const pricingPlans = [
 ];
 
 export default async function Page({}: Props) {
+    const { userId } = auth();
     const isSubscribed = await checkSubscription();
 
     return (
@@ -109,14 +112,33 @@ export default async function Page({}: Props) {
                                 }
                             >
                                 {index === 0 ? (
-                                    <Button
-                                        variant="outline"
-                                        className="w-full"
+                                    <Link
+                                        href={
+                                            isSubscribed
+                                                ? "/dashboard"
+                                                : "/sign-up"
+                                        }
+                                        className={buttonVariants({
+                                            variant: "outline",
+                                            size: "lg",
+                                            className: "w-full",
+                                        })}
                                     >
-                                        Choose Free Plan
-                                    </Button>
-                                ) : (
+                                        <p>Choose Free Plan</p>
+                                    </Link>
+                                ) : userId ? (
                                     <SubscribeBtn isSubscribed={isSubscribed} />
+                                ) : (
+                                    <Link
+                                        href="/sign-in"
+                                        className={buttonVariants({
+                                            variant: "outline",
+                                            size: "lg",
+                                            className: "w-full",
+                                        })}
+                                    >
+                                        <p>Choose Pro Plan</p>
+                                    </Link>
                                 )}
                             </CardFooter>
                         </Card>
