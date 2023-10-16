@@ -100,15 +100,15 @@ export default function Navbar({ userId }: Props) {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link
-                                        href="/"
+                                    <a
+                                        href="https://github.com/trdotpy/documate"
                                         className={buttonVariants({
                                             variant: "ghost",
                                             size: "lg",
                                         })}
                                     >
                                         Documentation
-                                    </Link>
+                                    </a>
                                 </li>
                             </ul>
                         </DialogContent>
@@ -142,15 +142,15 @@ export default function Navbar({ userId }: Props) {
                         >
                             Pricing
                         </Link>
-                        <Link
-                            href="/"
+                        <a
+                            href="https://github.com/trdotpy/documate"
                             className={buttonVariants({
                                 variant: "ghost",
                                 size: "sm",
                             })}
                         >
                             Documentation
-                        </Link>
+                        </a>
                     </div>
 
                     <div className="flex items-center justify-between gap-x-2">

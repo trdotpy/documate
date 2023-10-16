@@ -1,9 +1,12 @@
+"use client";
+
 import React from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 
 interface SubscribeBtnProps {
-    isSubscribed: boolean;
+    isSubscribed?: boolean;
 }
 
 export default function SubscribeBtn({ isSubscribed }: SubscribeBtnProps) {
@@ -27,7 +30,15 @@ export default function SubscribeBtn({ isSubscribed }: SubscribeBtnProps) {
             variant="outline"
             className="w-full"
         >
-            {isSubscribed ? "Manage Subscriptions" : "Upgrade Plan"}
+            {loading ? (
+                <div>
+                    <Loader2 className="h-6 w-6 animate-spin text-gray-500" />
+                </div>
+            ) : isSubscribed ? (
+                "Manage Subscriptions"
+            ) : (
+                "Upgrade to Pro"
+            )}
         </Button>
     );
 }

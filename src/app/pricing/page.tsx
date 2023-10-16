@@ -1,184 +1,128 @@
 import React from "react";
+import { Button } from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { checkSubscription } from "@/lib/stripe/stripe";
+import { Check } from "lucide-react";
+import SubscribeBtn from "@/components/SubscribeBtn";
 
 type Props = {};
 
-export default function page({}: Props) {
+const pricingPlans = [
+    {
+        name: "Starter",
+        price: "$0",
+        description: "Perfect for personal use",
+        features: [
+            "Send up to 5 messages per PDF",
+            "Add up to 10 PDFs",
+            "Analyze your PDFs with a state-of-the-art AI assistant",
+        ],
+    },
+    {
+        name: "Pro",
+        price: "$29.99",
+        description: "Perfect for teams and power users",
+        features: [
+            "Send unlimited messages per PDF",
+            "Add unlimited PDFs",
+            "Analyze your PDFs with a state-of-the-art AI assistant",
+            "Unlock advanced AI features for in-depth PDF analysis",
+            "24/7 support to answer any questions",
+        ],
+    },
+];
+
+export default async function Page({}: Props) {
+    const isSubscribed = await checkSubscription();
+
     return (
-        <div>
-            <section className="relative z-20 overflow-hidden bg-white pb-12 pt-20 lg:pb-[90px] lg:pt-[120px] ">
-                <div className="container">
-                    <div className="-mx-4 flex flex-wrap">
-                        <div className="w-full px-4">
-                            <div className="mx-auto mb-[60px] max-w-[510px] text-center lg:mb-20">
-                                <span className="text-primary mb-2 block text-lg font-semibold">
-                                    Pricing
-                                </span>
-                                <h2 className="text-dark mb-4 text-3xl font-bold sm:text-4xl md:text-[40px] ">
-                                    Choose your plan
-                                </h2>
-                                <p className="text-body-color text-base">
-                                    We offer simple and transparent pricing to
-                                    suit teams of all sizes. Choose the plan
-                                    that meets your needs.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="-mx-4 flex flex-wrap justify-center">
-                        <div className="w-full px-4 md:w-1/2 lg:w-1/3">
-                            <div className=" border-primary shadow-pricing relative z-10 mb-10 overflow-hidden rounded-xl border border-opacity-20 bg-white px-8 py-10 sm:p-12 lg:px-6 lg:py-10 xl:p-12 ">
-                                <span className="text-primary mb-4 block text-lg font-semibold">
-                                    Personal
-                                </span>
-                                <h2 className="text-dark mb-5 text-[42px] font-bold">
-                                    $59
-                                    <span className="text-body-color text-base font-medium">
-                                        / year
-                                    </span>
-                                </h2>
-                                <p className=" text-body-color mb-8 border-b border-[#F2F2F2] pb-8 text-base ">
-                                    Perfect for using in a personal website or a
-                                    client project.
-                                </p>
-                                <div className="mb-7">
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        1 User
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        All UI components
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        Lifetime access
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        Free updates
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        Use on 1 (one) project
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        3 Months support
-                                    </p>
-                                </div>
-                                <a
-                                    href="javascript:void(0)"
-                                    className=" text-primary hover:bg-primary hover:border-primary block w-full rounded-md border border-[#D4DEFF] bg-transparent p-4 text-center text-base font-semibold transition hover:text-white "
-                                >
-                                    Choose PersonalWe offer simple and
-                                    transparent pricing to suit teams of all
-                                    sizes. Choose the plan that meets your
-                                    needs.
-                                </a>
-                                <div>
-                                    <span className="absolute right-0 top-7 z-[-1]"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="w-full px-4 md:w-1/2 lg:w-1/3">
-                            <div className=" border-primary shadow-pricing relative z-10 mb-10 overflow-hidden rounded-xl border border-opacity-20 bg-white px-8 py-10 sm:p-12 lg:px-6 lg:py-10 xl:p-12 ">
-                                <span className="text-primary mb-4 block text-lg font-semibold">
-                                    Business
-                                </span>
-                                <h2 className="text-dark mb-5 text-[42px] font-bold">
-                                    $199
-                                    <span className="text-body-color text-base font-medium">
-                                        / year
-                                    </span>
-                                </h2>
-                                <p className=" text-body-color mb-8 border-b border-[#F2F2F2] pb-8 text-base ">
-                                    Perfect for using in a Business website or a
-                                    client project.
-                                </p>
-                                <div className="mb-7">
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        5 Users
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        All UI components
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        Lifetime access
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        Free updates
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        Use on 3 (Three) project
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        4 Months support
-                                    </p>
-                                </div>
-                                <a
-                                    href="javascript:void(0)"
-                                    className=" bg-primary border-primary block w-full rounded-md border p-4 text-center text-base font-semibold text-white transition hover:bg-opacity-90 "
-                                >
-                                    Choose Business
-                                </a>
-                                <div>
-                                    <span className="absolute right-0 top-7 z-[-1]">
-                                        {/* Color blob */}
-                                    </span>
-                                    <span className="absolute right-4 top-4 z-[-1]">
-                                        {/* Texture */}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="w-full px-4 md:w-1/2 lg:w-1/3">
-                            <div className=" border-primary shadow-pricing relative z-10 mb-10 overflow-hidden rounded-xl border border-opacity-20 bg-white px-8 py-10 sm:p-12 lg:px-6 lg:py-10 xl:p-12 ">
-                                <span className="text-primary mb-4 block text-lg font-semibold">
-                                    Professional
-                                </span>
-                                <h2 className="text-dark mb-5 text-[42px] font-bold">
-                                    $256
-                                    <span className="text-body-color text-base font-medium">
-                                        / year
-                                    </span>
-                                </h2>
-                                <p className=" text-body-color mb-8 border-b border-[#F2F2F2] pb-8 text-base ">
-                                    Perfect for using in a Professional website
-                                    or a client project.
-                                </p>
-                                <div className="mb-7">
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        Unlimited Users
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        All UI components
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        Lifetime access
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        Free updates
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        Use on Unlimited project
-                                    </p>
-                                    <p className="text-body-color mb-1 text-base leading-loose">
-                                        12 Months support
-                                    </p>
-                                </div>
-                                <a
-                                    href="javascript:void(0)"
-                                    className=" text-primary hover:bg-primary hover:border-primary block w-full rounded-md border border-[#D4DEFF] bg-transparent p-4 text-center text-base font-semibold transition hover:text-white "
-                                >
-                                    Choose Professional
-                                </a>
-                                <div>
-                                    <span className="absolute right-0 top-7 z-[-1]">
-                                        {/* Color blob */}
-                                    </span>
-                                    <span className="absolute right-4 top-4 z-[-1]">
-                                        {/* Texture */}
-                                    </span>
-                                </div>
-                            </div>
+        <section className="relative z-20 overflow-hidden bg-white pb-12 pt-20 lg:pb-[90px] lg:pt-[120px]">
+            <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]" />
+            <div>
+                <div className="-mx-4 flex flex-wrap">
+                    <div className="w-full px-4">
+                        <div className="mx-auto mb-[60px] max-w-[510px] text-center lg:mb-20">
+                            <span className="text-primary mb-2 block text-lg font-semibold">
+                                Pricing
+                            </span>
+                            <h1 className="text-dark mb-4 text-3xl font-bold sm:text-4xl md:text-[40px] ">
+                                Choose your plan
+                            </h1>
+                            <p className="text-body-color text-base">
+                                We offer simple and transparent pricing to suit
+                                teams of all sizes. Pick the plan that meets
+                                your needs.
+                            </p>
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
+
+                <div className="flex-col justify-center space-y-12 px-4 sm:-mx-4 sm:flex sm:flex-row sm:space-x-12 sm:space-y-0 sm:px-0">
+                    {pricingPlans.map((plan, index) => (
+                        <Card
+                            key={index}
+                            className={index === 0 ? "sm:relative" : ""}
+                        >
+                            <CardHeader>
+                                <CardTitle>
+                                    <span className="text-primary mb-4 block text-lg font-semibold">
+                                        {plan.name}
+                                    </span>
+                                    <h2 className="text-dark mb-5 text-[42px] font-bold">
+                                        {plan.price}
+                                        <span className="text-body-color text-base font-medium">
+                                            / month
+                                        </span>
+                                    </h2>
+                                </CardTitle>
+                                <CardDescription>
+                                    <p className="text-body-color border-b border-[#F2F2F2] pb-8 text-base">
+                                        {plan.description}
+                                    </p>
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="flex-col space-y-2">
+                                {plan.features.map((feature, featureIndex) => (
+                                    <div
+                                        key={featureIndex}
+                                        className="flex space-x-2"
+                                    >
+                                        <Check className="text-green-500" />
+                                        <p className="text-body-color mb-1 text-sm leading-loose sm:text-base">
+                                            {feature}
+                                        </p>
+                                    </div>
+                                ))}
+                            </CardContent>
+                            <CardFooter
+                                className={
+                                    index === 0
+                                        ? "bottom-0 sm:absolute sm:inset-x-0"
+                                        : ""
+                                }
+                            >
+                                {index === 0 ? (
+                                    <Button
+                                        variant="outline"
+                                        className="w-full"
+                                    >
+                                        Choose Free Plan
+                                    </Button>
+                                ) : (
+                                    <SubscribeBtn isSubscribed={isSubscribed} />
+                                )}
+                            </CardFooter>
+                        </Card>
+                    ))}
+                </div>
+            </div>
+        </section>
     );
 }
