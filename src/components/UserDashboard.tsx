@@ -31,13 +31,6 @@ export default function UserDashboard({ isSubscribed }: PageProps) {
         },
     });
 
-    // Update URL without redirecting
-    React.useEffect(() => {
-        const newUrl = `/dashboard/${selectedFileId}`;
-        history.pushState(null, "", newUrl);
-        setSelectedFileId(selectedFileId);
-    }, [selectedFileId]);
-
     // Function to handle unselecting the file
     const handleReturnToDashboard = () => {
         // Update the URL to go back to the dashboard
@@ -52,7 +45,7 @@ export default function UserDashboard({ isSubscribed }: PageProps) {
 
     return (
         <div className="flex-col border-t border-gray-100 md:flex">
-            <div className="flex justify-between">
+            <div className="flex-col justify-between sm:flex sm:flex-row">
                 {/* File List */}
                 {!isPDFSelected && (
                     <div className="h-full">

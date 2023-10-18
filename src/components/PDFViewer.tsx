@@ -86,7 +86,9 @@ export default function PDFViewer({
                         <span>{numPages ?? "x"}</span>
                     </p>
                 </div>
-                <h1 className="font-medium">{fileName}</h1>
+                <h1 className="hidden lg:block text-sm xl:text-base text-gray-800">
+                    {fileName}
+                </h1>
                 <div className="flex items-center">
                     <a href={fileURL} download={fileName}>
                         <Button variant="ghost" aria-label="download">

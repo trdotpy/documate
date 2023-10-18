@@ -47,7 +47,7 @@ export default function MessagePanel({
     const isExceedingFreeTier = messages.length > 5;
 
     return (
-        <div className="relative w-full bg-gray-50 p-4">
+        <div className="relative w-full h-full bg-gray-50 p-4">
             <div className="flex flex-col p-6">
                 {/* Messages List */}
                 <MessageList
