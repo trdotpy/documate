@@ -1,6 +1,6 @@
 "use client";
 
-import { SignInButton, SignOutButton, UserButton } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 import React from "react";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
@@ -12,6 +12,7 @@ import {
     User2,
     UserPlus,
     LayoutDashboard,
+    Home,
 } from "lucide-react";
 import {
     Dialog,
@@ -58,7 +59,20 @@ export default function Navbar({ userId }: Props) {
                                 </div>
                             </DialogHeader>
                             <Separator />
-                            <ul className="mt-2 flex-col justify-center">
+                            <ul className="flex-col justify-center">
+                                <li>
+                                    <Link
+                                        href="/"
+                                        className={buttonVariants({
+                                            variant: "ghost",
+                                            size: "lg",
+                                            className: "mb-2 mt-2 text-xl",
+                                        })}
+                                    >
+                                        <Home className="mr-2 h-6 w-6" />
+                                        Home
+                                    </Link>
+                                </li>
                                 {userId ? (
                                     <div>
                                         <li>
