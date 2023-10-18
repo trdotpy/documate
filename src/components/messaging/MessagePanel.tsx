@@ -82,7 +82,7 @@ export default function MessagePanel({
                         Send
                     </Button>
                 </form>
-                <div className="mt-1 flex justify-center">
+                <div className="mt-2 flex justify-center pb-1">
                     <h2 className="text-xs text-gray-600">Powered by OpenAI</h2>
                 </div>
             </div>

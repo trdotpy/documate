@@ -4,8 +4,16 @@ import { SignInButton, SignOutButton, UserButton } from "@clerk/nextjs";
 import React from "react";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
-import { Blocks, ChevronDown } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Blocks, ChevronDown, ListMinus, Text, TextQuote } from "lucide-react";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { Separator } from "./ui/separator";
 import { usePathname } from "next/navigation";
 
 interface Props {
@@ -19,17 +27,28 @@ export default function Navbar({ userId }: Props) {
     return (
         <>
             {/* Mobile Navbar */}
-            <nav className="h-18 sticky inset-x-0 top-0 block w-full border-b border-gray-300 py-4 backdrop-blur-lg transition-all sm:hidden">
+            <nav className="h-18 block w-full border-b border-gray-200 py-4 backdrop-blur-lg transition-all sm:hidden">
                 <div className="flex justify-center">
                     <Dialog>
                         <DialogTrigger className="flex items-center justify-center">
-                            <Blocks />
-                            <h1 className="ml-3 text-lg font-medium text-white">
-                                DocuMate
-                            </h1>
+                            <h2 className="ml-3 text-base font-medium uppercase tracking-wide text-white">
+                                DocuMat
+                            </h2>
+                            <ListMinus className="h-4 w-4" />
                             <ChevronDown className="ml-2 h-4 w-4" />
                         </DialogTrigger>
-                        <DialogContent className="min-h-screen">
+
+                        <DialogContent>
+                            <Link
+                                href="/"
+                                className={buttonVariants({
+                                    variant: "ghost",
+                                    size: "sm",
+                                })}
+                            >
+                                <Blocks className="h-8 w-8" />
+                            </Link>
+                            <Separator />
                             <ul className="flex-col justify-center text-center">
                                 {userId ? (
                                     <div className="flex-col justify-between">
@@ -39,6 +58,7 @@ export default function Navbar({ userId }: Props) {
                                                 className={buttonVariants({
                                                     variant: "ghost",
                                                     size: "lg",
+                                                    className: "text-xl",
                                                 })}
                                             >
                                                 Dashboard
@@ -51,7 +71,7 @@ export default function Navbar({ userId }: Props) {
                                                         variant: "ghost",
                                                         size: "lg",
                                                         className:
-                                                            "cursor-pointer",
+                                                            "cursor-pointer text-xl",
                                                     })}
                                                 >
                                                     Sign out
@@ -68,7 +88,7 @@ export default function Navbar({ userId }: Props) {
                                                         variant: "ghost",
                                                         size: "lg",
                                                         className:
-                                                            "cursor-pointer",
+                                                            "cursor-pointer text-xl",
                                                     })}
                                                 >
                                                     Sign In
@@ -81,9 +101,10 @@ export default function Navbar({ userId }: Props) {
                                                 className={buttonVariants({
                                                     variant: "ghost",
                                                     size: "lg",
+                                                    className: "text-xl",
                                                 })}
                                             >
-                                                Get Started
+                                                Sign up
                                             </Link>
                                         </li>
                                     </div>
@@ -94,6 +115,7 @@ export default function Navbar({ userId }: Props) {
                                         className={buttonVariants({
                                             variant: "ghost",
                                             size: "lg",
+                                            className: "text-xl",
                                         })}
                                     >
                                         Pricing
@@ -105,6 +127,7 @@ export default function Navbar({ userId }: Props) {
                                         className={buttonVariants({
                                             variant: "ghost",
                                             size: "lg",
+                                            className: "text-xl",
                                         })}
                                     >
                                         Documentation
@@ -117,7 +140,7 @@ export default function Navbar({ userId }: Props) {
             </nav>
 
             {/* Desktop Navbar */}
-            <nav className="h-18 sticky inset-x-0 top-0 hidden w-full bg-transparent py-4 transition-all sm:block">
+            <nav className="h-18 sticky inset-x-0 top-0 hidden w-full py-4 transition-all sm:block">
                 <div className="flex items-center justify-between px-6">
                     <div className="flex items-center justify-between gap-x-2 text-gray-900">
                         <Link
@@ -128,11 +151,14 @@ export default function Navbar({ userId }: Props) {
                                 className: "flex items-center",
                             })}
                         >
-                            <Blocks />
-                            <h1 className="ml-3 text-lg font-medium text-white">
-                                DocuMate
+                            <h1 className="ml-3 text-base font-medium uppercase tracking-wide text-white">
+                                DocuMat
                             </h1>
+                            <ListMinus className="h-4 w-4" />
                         </Link>
+                    </div>
+
+                    <div>
                         <Link
                             href="/pricing"
                             className={buttonVariants({
@@ -151,6 +177,15 @@ export default function Navbar({ userId }: Props) {
                         >
                             Documentation
                         </a>
+                        <Link
+                            href="/pricing"
+                            className={buttonVariants({
+                                variant: "ghost",
+                                size: "sm",
+                            })}
+                        >
+                            About
+                        </Link>
                     </div>
 
                     <div className="flex items-center justify-between gap-x-2">
@@ -175,7 +210,7 @@ export default function Navbar({ userId }: Props) {
                                     <Link
                                         href="/sign-in"
                                         className={buttonVariants({
-                                            variant: "ghost",
+                                            variant: "outline",
                                             size: "sm",
                                         })}
                                     >
@@ -184,11 +219,11 @@ export default function Navbar({ userId }: Props) {
                                     <Link
                                         href="/sign-up"
                                         className={buttonVariants({
-                                            variant: "outline",
+                                            variant: "default",
                                             size: "sm",
                                         })}
                                     >
-                                        Get Started
+                                        Sign up for free
                                     </Link>
                                 </div>
                             )}

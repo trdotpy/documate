@@ -51,7 +51,7 @@ export default function UserDashboard({ isSubscribed }: PageProps) {
     };
 
     return (
-        <div className="flex-col border-t border-gray-200 md:flex">
+        <div className="flex-col border-t border-gray-100 md:flex">
             <div className="flex justify-between">
                 {/* File List */}
                 {!isPDFSelected && (
@@ -74,7 +74,7 @@ export default function UserDashboard({ isSubscribed }: PageProps) {
                 )}
 
                 {/* Message Panel */}
-                <div className="flex-1 border-l border-gray-300">
+                <div className="flex-1 border-l border-gray-100">
                     <div className="h-[calc(100vh-72px)] flex-col sm:flex sm:flex-row">
                         {isPDFSelected && (
                             <PDFViewer
