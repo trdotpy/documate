@@ -4,13 +4,19 @@ import { SignInButton, SignOutButton, UserButton } from "@clerk/nextjs";
 import React from "react";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
-import { Blocks, ChevronDown, ListMinus, Text, TextQuote } from "lucide-react";
+import {
+    ChevronDown,
+    ListMinus,
+    CreditCard,
+    BadgeHelp,
+    User2,
+    UserPlus,
+    LayoutDashboard,
+} from "lucide-react";
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogHeader,
-    DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Separator } from "./ui/separator";
@@ -28,30 +34,33 @@ export default function Navbar({ userId }: Props) {
         <>
             {/* Mobile Navbar */}
             <nav className="h-18 block w-full border-b border-gray-200 py-4 backdrop-blur-lg transition-all sm:hidden">
-                <div className="flex justify-center">
+                <div
+                    className={`flex items-center justify-center ${
+                        userId ? "justify-between px-8" : ""
+                    }`}
+                >
                     <Dialog>
                         <DialogTrigger className="flex items-center justify-center">
-                            <h2 className="ml-3 text-base font-medium uppercase tracking-wide text-white">
+                            <h2 className="ml-3 text-lg font-medium uppercase tracking-wide text-white">
                                 DocuMat
                             </h2>
                             <ListMinus className="h-4 w-4" />
                             <ChevronDown className="ml-2 h-4 w-4" />
                         </DialogTrigger>
 
-                        <DialogContent>
-                            <Link
-                                href="/"
-                                className={buttonVariants({
-                                    variant: "ghost",
-                                    size: "sm",
-                                })}
-                            >
-                                <Blocks className="h-8 w-8" />
-                            </Link>
+                        <DialogContent className="bg-white-100 shadow-lg">
+                            <DialogHeader>
+                                <div className="mb-2 flex items-center justify-center">
+                                    <h2 className="ml-3 text-lg font-medium uppercase tracking-wide text-white">
+                                        DocuMat
+                                    </h2>
+                                    <ListMinus className="h-4 w-4" />
+                                </div>
+                            </DialogHeader>
                             <Separator />
-                            <ul className="flex-col justify-center text-center">
+                            <ul className="mt-2 flex-col justify-center">
                                 {userId ? (
-                                    <div className="flex-col justify-between">
+                                    <div>
                                         <li>
                                             <Link
                                                 href="/dashboard"
@@ -61,41 +70,28 @@ export default function Navbar({ userId }: Props) {
                                                     className: "text-xl",
                                                 })}
                                             >
+                                                <LayoutDashboard className="mr-2 h-6 w-6" />
                                                 Dashboard
                                             </Link>
-                                        </li>
-                                        <li>
-                                            <SignOutButton>
-                                                <p
-                                                    className={buttonVariants({
-                                                        variant: "ghost",
-                                                        size: "lg",
-                                                        className:
-                                                            "cursor-pointer text-xl",
-                                                    })}
-                                                >
-                                                    Sign out
-                                                </p>
-                                            </SignOutButton>
                                         </li>
                                     </div>
                                 ) : (
                                     <div>
                                         <li>
-                                            <SignInButton>
-                                                <p
-                                                    className={buttonVariants({
-                                                        variant: "ghost",
-                                                        size: "lg",
-                                                        className:
-                                                            "cursor-pointer text-xl",
-                                                    })}
-                                                >
-                                                    Sign In
-                                                </p>
-                                            </SignInButton>
+                                            <Link
+                                                href="/sign-in"
+                                                className={buttonVariants({
+                                                    variant: "ghost",
+                                                    size: "lg",
+                                                    className:
+                                                        "flex cursor-pointer items-center text-xl",
+                                                })}
+                                            >
+                                                <User2 className="mr-2 h-6 w-6" />
+                                                Sign in
+                                            </Link>
                                         </li>
-                                        <li>
+                                        <li className="mt-2">
                                             <Link
                                                 href="/sign-up"
                                                 className={buttonVariants({
@@ -104,6 +100,7 @@ export default function Navbar({ userId }: Props) {
                                                     className: "text-xl",
                                                 })}
                                             >
+                                                <UserPlus className="mr-2 h-6 w-6" />
                                                 Sign up
                                             </Link>
                                         </li>
@@ -115,9 +112,10 @@ export default function Navbar({ userId }: Props) {
                                         className={buttonVariants({
                                             variant: "ghost",
                                             size: "lg",
-                                            className: "text-xl",
+                                            className: "mt-2 text-xl",
                                         })}
                                     >
+                                        <CreditCard className="mr-2 h-6 w-6" />
                                         Pricing
                                     </Link>
                                 </li>
@@ -127,15 +125,17 @@ export default function Navbar({ userId }: Props) {
                                         className={buttonVariants({
                                             variant: "ghost",
                                             size: "lg",
-                                            className: "text-xl",
+                                            className: "mt-2 text-xl",
                                         })}
                                     >
+                                        <BadgeHelp className="mr-2 h-6 w-6" />
                                         Documentation
                                     </a>
                                 </li>
                             </ul>
                         </DialogContent>
                     </Dialog>
+                    {userId && <UserButton afterSignOutUrl="/" />}
                 </div>
             </nav>
 
