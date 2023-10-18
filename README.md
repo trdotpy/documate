@@ -2,8 +2,6 @@
 
 DocuMate is a Next.js project that allows users to upload PDF files and interact with them using a state-of-the-art AI assistant. The application is designed to be user-friendly and efficient, providing a seamless experience for users.
 
-<br />
-
 # Built With
 
 -   Next.js
@@ -16,8 +14,6 @@ DocuMate is a Next.js project that allows users to upload PDF files and interact
 -   Stripe
 -   Clerk
 -   Tailwind
-
-<br />
 
 # Getting Started
 
