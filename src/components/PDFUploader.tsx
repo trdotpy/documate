@@ -78,7 +78,7 @@ function PDFUpload({}: Props) {
                     );
                 }
             } catch (error) {
-                console.error;
+                console.error(error);
             } finally {
                 setIsLoading(false);
                 toast.success("Successfully uploaded file!");

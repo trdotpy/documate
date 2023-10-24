@@ -73,6 +73,7 @@ export default function UserDashboard({ isSubscribed }: PageProps) {
                             <PDFViewer
                                 fileURL={selectedFileUrl}
                                 fileName={selectedFileName}
+                                fileId={selectedFileId}
                                 handleReturnToDashboard={
                                     handleReturnToDashboard
                                 }

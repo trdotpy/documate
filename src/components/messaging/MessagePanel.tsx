@@ -3,8 +3,6 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Message, useChat } from "ai/react";
 import MessageList from "./MessageList";
-import { Settings, Settings2, Trash2 } from "lucide-react";
-import { Card } from "../ui/card";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { File } from "@prisma/client";
@@ -47,7 +45,7 @@ export default function MessagePanel({
     const isExceedingFreeTier = messages.length > 5;
 
     return (
-        <div className="relative w-full h-full bg-gray-50 p-4">
+        <div className="relative h-full w-full bg-gray-50 p-4">
             <div className="flex flex-col p-6">
                 {/* Messages List */}
                 <MessageList

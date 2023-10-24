@@ -149,9 +149,9 @@ export const deleteFromPinecone = async (fileId: string) => {
         const pinecone = getPineconeClient();
         const pineconeIndex = pinecone.Index(process.env.PINECONE_INDEX!);
 
-        // Delete the records from Pinecone
+        // Delete from Pinecone
         await pineconeIndex.deleteOne(fileId);
-        console.log(`Deleted records associated with fileId: ${fileId}`);
+        // console.log(`Deleted records associated with fileId: ${fileId}`);
     } catch (error) {
         console.error("Error deleting records from Pinecone", error);
         throw error;

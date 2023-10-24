@@ -7,6 +7,7 @@ import {
     Loader2,
     Maximize,
     Printer,
+    Trash2,
 } from "lucide-react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -14,13 +15,26 @@ import { toast } from "sonner";
 import { useResizeDetector } from "react-resize-detector";
 import { Input } from "./ui/input";
 import SimpleBar from "simplebar-react";
-import { Button, buttonVariants } from "./ui/button";
+import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { useReactToPrint } from "react-to-print";
+import axios from "axios";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface PDFViewerProps {
     fileURL: string;
     fileName: string;
+    fileId: string;
     handleReturnToDashboard: () => void;
 }
 
@@ -29,6 +43,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 export default function PDFViewer({
     fileURL,
     fileName,
+    fileId,
     handleReturnToDashboard,
 }: PDFViewerProps) {
     const [numPages, setNumPages] = React.useState<number | null>();
@@ -56,6 +71,18 @@ export default function PDFViewer({
         documentTitle: fileName,
         removeAfterPrint: true,
     });
+
+    async function handleDelete() {
+        try {
+            await axios.delete("/api/files", { data: { fileId } });
+        } catch (error) {
+            console.error(error);
+        } finally {
+            toast.success("File deleted.");
+            window.location.reload();
+            handleReturnToDashboard();
+        }
+    }
 
     return (
         <div className="flex w-full flex-col items-center rounded-md bg-white shadow">
@@ -86,7 +113,7 @@ export default function PDFViewer({
                         <span>{numPages ?? "x"}</span>
                     </p>
                 </div>
-                <h1 className="hidden lg:block text-sm xl:text-base text-gray-800">
+                <h1 className="hidden text-sm text-gray-800 lg:block">
                     {fileName}
                 </h1>
                 <div className="flex items-center">
@@ -103,6 +130,32 @@ export default function PDFViewer({
                     >
                         <Printer className="h-4 w-4" />
                     </Button>
+
+                    <AlertDialog>
+                        <AlertDialogTrigger>
+                            <Button variant="ghost" aria-label="delete-file">
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                    Are you sure you want to delete this PDF?
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. This will
+                                    permanently delete this file and remove it
+                                    from our servers.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleDelete}>
+                                    Delete
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
 
                     <FSViewer fileURL={fileURL} />
                 </div>

@@ -92,22 +92,14 @@ export async function DELETE(req: Request, res: Response) {
 
     try {
         const body = await req.json();
-        // console.log("Body request data:", body);
 
-        // Delete file from S3
         await deleteFromS3(body.fileId);
-
-        // Delete file from Pinecone
         await deleteFromPinecone(body.fileId);
-
-        // Delete file from the database
         await db.file.delete({
             where: {
                 id: body.fileId,
             },
         });
-
-        // console.log("File deleted:", body.fileId);
     } catch (error) {
         console.error(error);
         return NextResponse.json(
