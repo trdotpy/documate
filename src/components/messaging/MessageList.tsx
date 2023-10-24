@@ -69,7 +69,6 @@ export default function MessageList({
                 </div>
             </div>
         );
-
     return (
         <div className="relative flex flex-col gap-2 px-4">
             {messages.map((message) => {
@@ -77,8 +76,10 @@ export default function MessageList({
                     <div
                         key={message.id}
                         className={cn("my-4 flex gap-3 text-sm text-gray-300", {
-                            "justify-end": message.role === "user",
-                            "justify-start": message.role === "assistant",
+                            "justify-end":
+                                message.role.toLowerCase() === "user",
+                            "justify-start":
+                                message.role.toLowerCase() === "assistant",
                         })}
                     >
                         <div
@@ -86,21 +87,22 @@ export default function MessageList({
                                 "rounded px-3 py-1 text-sm text-gray-700 shadow-md ring-1 ring-gray-900/10",
                                 {
                                     "bg-[#252527] text-gray-100":
-                                        message.role === "user",
+                                        message.role.toLowerCase() === "user",
                                 }
                             )}
                         >
                             <p className="leading-relaxed">
                                 <span
                                     className={
-                                        message.role === "user"
+                                        message.role.toLowerCase() === "user"
                                             ? "block text-right font-bold text-gray-100"
                                             : "block text-left font-bold text-gray-700"
                                     }
                                 >
-                                    {message.role === "user"
+                                    {message.role.toLowerCase() === "user"
                                         ? userFirstName || ""
-                                        : message.role === "assistant"
+                                        : message.role.toLowerCase() ===
+                                          "assistant"
                                         ? "DocuMate"
                                         : ""}{" "}
                                 </span>
