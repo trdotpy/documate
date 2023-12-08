@@ -45,7 +45,7 @@ async function prepareFile(page: PDFPage) {
     return docs;
 }
 
-async function embedDocument(doc: Document) {
+async function embedDocument(doc: Document, fileId: string) {
     try {
         const embeddings = await getEmbeddings(doc.pageContent);
         const hash = md5(doc.pageContent);
@@ -56,6 +56,7 @@ async function embedDocument(doc: Document) {
             metadata: {
                 text: doc.metadata.text,
                 pageNumber: doc.metadata.pageNumber,
+                fileId: fileId, // Include fileId in the metadata
             },
         } as PineconeRecord;
     } catch (error) {
@@ -80,7 +81,9 @@ export async function uploadToPinecone(fileId: string) {
     const pageCount = pages.length;
 
     const documents = await Promise.all(pages.map(prepareFile));
-    const vectors = await Promise.all(documents.flat().map(embedDocument));
+    const vectors = await Promise.all(
+        documents.flat().map((doc) => embedDocument(doc, fileId))
+    );
     const pinecone = getPineconeClient();
     const pineconeIndex = pinecone.Index(process.env.PINECONE_INDEX!);
     await pineconeIndex.upsert(vectors);
@@ -103,21 +106,13 @@ export async function getMatches(embeddings: number[], fileId: string) {
         const pinecone = getPineconeClient();
         const pineconeIndex = pinecone.index(process.env.PINECONE_INDEX!);
 
-        // const namespace = pineconeIndex.namespace(convertToAscii(fileId));
-        // const queryResult = await namespace.query({
-        //   topK: 5, // Return top 5 similar vectors
-        //   vector: embeddings, // Vector to query against
-        //   includeMetadata: true,
-        //   filter: {},
-        // });
-
-        // TODO: Fix querying with fileId
         const queryResult = await pineconeIndex.query({
-            // Query entire index for now
             topK: 5, // Return top 5 similar vectors
             vector: embeddings, // Vector to query against
             includeMetadata: true,
-            filter: {},
+            filter: {
+                fileId: fileId, // Filter by fileId
+            },
         });
         return queryResult.matches || [];
     } catch (error) {
