@@ -84,9 +84,9 @@ export default function MessageList({
                     >
                         <div
                             className={cn(
-                                "rounded px-3 py-1 text-sm text-gray-700 shadow-md ring-1 ring-gray-900/10",
+                                "rounded px-3 py-1 text-sm text-gray-800 shadow-md ring-1 ring-gray-900/10 bg-white-200",
                                 {
-                                    "bg-[#252527] text-gray-100":
+                                    "bg-black-500 text-gray-100":
                                         message.role.toLowerCase() === "user",
                                 }
                             )}
