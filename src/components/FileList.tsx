@@ -141,7 +141,7 @@ export default function FileList({
                 ) : (
                     <div className="mx-6 mt-4 flex items-center justify-start">
                         <h2 className="pb-6 text-sm text-gray-500 sm:text-base">
-                            No files found matching your query.
+                            No files found.
                         </h2>
                     </div>
                 )}
