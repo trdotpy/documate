@@ -13,9 +13,14 @@ export async function getEmbeddings(text: string) {
             input: text.replace(/[\n\r]+/g, " "),
         });
         const result = await response.json();
-        return result.data[0].embedding as number[];
+        console.log("Embeddings API response:", result);
+        if (result.data && result.data.length > 0) {
+            return result.data[0].embedding as number[];
+        } else {
+            throw new Error("No embeddings returned from the API.");
+        }
     } catch (error) {
-        console.log("Error calling Embeddings API:", error);
+        console.error("Error calling Embeddings API:", error);
         throw error;
     }
 }
