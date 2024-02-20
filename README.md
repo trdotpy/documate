@@ -1,9 +1,22 @@
-# DocuMate
+# DocuMate - Your AI Assistant for Documents
 
-DocuMate is a Next.js project that allows users to upload PDF files and interact with them using a state-of-the-art AI assistant. The application is designed to be user-friendly and efficient, providing a seamless experience for users.
+DocuMate is an AI-powered document assistant that helps you search, summarize, and extract insights from your PDFs and other documents. 
+
+With DocuMate you can:
+- Upload PDFs and have them automatically indexed for search
+- Get quick summaries of documents
+- Ask questions about document contents and get answers instantly
+- See related sections and passages when searching
+- Extract key data points and insights
+
+# Key Features
+- Summarization - Get concise overviews of documents to quickly understand key points
+- Contextual Answers - Ask questions about documents and get answers with relevant context
+- Insights - Automatically extract key data points, figures, and insights
+- Relevance - See the most relevant sections and passages highlighted for your queries
+- Secure - Your documents are kept private and secure
 
 # Built With
-
 -   Next.js
 -   AWS S3
 -   LangChain
@@ -68,4 +81,9 @@ Start the server
   npm run dev
 ```
 
+# Contributing
+Pull requests are welcome! Feel free to open issues and contribute.
+
 <br />
+
+
